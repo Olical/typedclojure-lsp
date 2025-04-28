@@ -5,10 +5,16 @@
 (kp/defplugin background-check.kaocha/plugin
   (post-run
    [result]
-   (try
-     (some-> (filter #(re-find #"^examples." (str %)) (all-ns))
-             (seq)
-             (t/check-ns-clj))
-     (catch clojure.lang.ExceptionInfo e
-       (println "errors!")))
+   (let [pats (or (seq (map re-pattern (get :background-check/ns-patterns result)))
+                  [#".*"])]
+     (try
+       (some-> (filter
+                (fn [ns]
+                  (let [ns-name (str ns)]
+                    (some #(re-find % ns-name) pats)))
+                (all-ns))
+               (seq)
+               (t/check-ns-clj))
+       (catch clojure.lang.ExceptionInfo e
+         (println "errors!"))))
    result))
