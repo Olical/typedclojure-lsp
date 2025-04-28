@@ -1,0 +1,1 @@
+{:lint-as {kaocha.plugin/defplugin clojure.core/definterface}}
