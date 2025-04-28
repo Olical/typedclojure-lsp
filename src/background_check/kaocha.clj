@@ -1,8 +1,8 @@
-(ns background-check.core
+(ns background-check.kaocha
   (:require [kaocha.plugin :as kp]
             [typed.clojure :as t]))
 
-(kp/defplugin background-check.core/plugin
+(kp/defplugin background-check.kaocha/plugin
   (post-run
    [result]
    (try
