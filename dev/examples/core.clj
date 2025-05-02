@@ -1,4 +1,4 @@
-(ns examples.core
+(ns ^:typed.clojure examples.core
   (:require [malli.experimental :as mx]))
 
 (mx/defn add :- number?
