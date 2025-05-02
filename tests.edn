@@ -14,7 +14,7 @@
  :kaocha.plugin.randomize/seed 605325435
  :kaocha.plugin.randomize/randomize? true
 
- :background-check/ns-patterns ["^examples\\."]
+ :background-check/dirs ["dev/examples"]
 
  :kaocha/plugins
  [:kaocha.plugin/randomize

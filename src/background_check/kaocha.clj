@@ -5,16 +5,8 @@
 (kp/defplugin background-check.kaocha/plugin
   (post-run
    [result]
-   (let [pats (or (seq (map re-pattern (get :background-check/ns-patterns result)))
-                  [#".*"])]
-     (try
-       (some-> (filter
-                (fn [ns]
-                  (let [ns-name (str ns)]
-                    (some #(re-find % ns-name) pats)))
-                (all-ns))
-               (seq)
-               (t/check-ns-clj))
-       (catch clojure.lang.ExceptionInfo e
-         (println "errors!"))))
+   (try
+     (t/check-dir-clj (get result :background-check/dirs))
+     (catch clojure.lang.ExceptionInfo e
+       (prn (map ex-data (:errors (ex-data e))))))
    result))
