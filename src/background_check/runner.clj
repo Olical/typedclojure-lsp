@@ -3,7 +3,6 @@
   (:require [typed.clojure :as t]))
 
 ;; TODO Expand upon the t/Any placeholders.
-;; TODO Add some asserts on top of the unsafe casts.
 
 (t/ann t/check-dir-clj [(t/Seqable t/Str) :-> t/Nothing])
 
@@ -27,10 +26,14 @@
   "Takes an ExceptionInfo from Typed Clojure and converts it to a sequence of maps we can easily display."
   [exinf]
   (let [errors ^{::t/unsafe-cast (t/Seqable t/ExInfo)} (:errors (ex-data exinf))]
+    (assert errors)
     (map
      (fn [error]
-       (let [{:keys [env form type-error]} ^{::t/unsafe-cast TypedClojureExInfoData} (ex-data error)
+       (let [{:keys [env form type-error]}
+             ^{::t/unsafe-cast TypedClojureExInfoData} (ex-data error)
+
              {:keys [line column file]} env]
+         (assert (and env form type-error line column file))
          {:message (ex-message error)
           :form form
           :type-error type-error
