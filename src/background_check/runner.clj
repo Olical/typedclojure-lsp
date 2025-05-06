@@ -1,10 +1,9 @@
 (ns ^:typed.clojure background-check.runner
   "Wrappers around typed.clojure that return type check results as data."
-  (:require [typed.clojure :as t]
-            [clojure.core.typed :as ct]))
+  (:require [typed.clojure :as t]))
 
-;; TODO Can we annotate inside the defn with a macro?
 ;; TODO Expand upon the t/Any placeholders.
+;; TODO Add some asserts on top of the unsafe casts.
 
 (t/ann t/check-dir-clj [(t/Seqable t/Str) :-> t/Nothing])
 
@@ -18,7 +17,7 @@
                                  :file t/Str})}))
 
 (t/defalias TypeError
-  (t/U
+  (t/Merge
    TypedClojureExInfoData
    (t/HMap
     :mandatory {:message (t/Nilable t/Str)})))
