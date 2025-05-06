@@ -23,6 +23,5 @@
             :exception #(instance? java.lang.AssertionError %)}
            (runner/check-dirs ["dev/giants_shoulders"]))))
 
-  ;; TODO Re-instate this when I type check this ns again.
-  #_(t/testing "returns :ok if everything is fine"
-      (t/is (= {:result :ok} (runner/check-dirs ["src"])))))
+  (t/testing "returns :ok if everything is fine"
+    (t/is (= {:result :ok} (runner/check-dirs ["src"])))))

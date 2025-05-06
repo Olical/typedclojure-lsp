@@ -1,37 +1,37 @@
-(ns background-check.runner
+(ns ^:typed.clojure background-check.runner
   "Wrappers around typed.clojure that return type check results as data."
   (:require [typed.clojure :as t]
-            [clojure.core.typed :as tc]))
+            [clojure.core.typed :as ct]))
 
 ;; TODO Can we annotate inside the defn with a macro?
 ;; TODO Expand upon the t/Any placeholders.
 
 (t/ann t/check-dir-clj [(t/Seqable t/Str) :-> t/Nothing])
 
-(t/defalias TypeError
+(t/defalias TypedClojureExInfoData
   (t/HMap
-   :mandatory {:message (t/Nilable t/Str)
-               :form t/Any
+   :mandatory {:form t/Any
                :type-error t/Keyword
                :env (t/HMap
                      :mandatory {:line t/Num
                                  :column t/Num
                                  :file t/Str})}))
 
+(t/defalias TypeError
+  (t/U
+   TypedClojureExInfoData
+   (t/HMap
+    :mandatory {:message (t/Nilable t/Str)})))
+
 (t/ann ExceptionInfo->type-errors [t/ExInfo :-> (t/ASeq TypeError)])
 (defn ExceptionInfo->type-errors
   "Takes an ExceptionInfo from Typed Clojure and converts it to a sequence of maps we can easily display."
   [exinf]
-  (let [errors (:errors (ex-data exinf))]
-    (assert errors)
+  (let [errors ^{::t/unsafe-cast (t/Seqable t/ExInfo)} (:errors (ex-data exinf))]
     (map
      (fn [error]
-       (let [{:keys [env form type-error]} (ex-data error)
+       (let [{:keys [env form type-error]} ^{::t/unsafe-cast TypedClojureExInfoData} (ex-data error)
              {:keys [line column file]} env]
-         (assert (keyword? type-error))
-         (assert (number? line))
-         (assert (number? column))
-         (assert (string? file))
          {:message (ex-message error)
           :form form
           :type-error type-error
