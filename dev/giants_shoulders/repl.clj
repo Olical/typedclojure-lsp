@@ -1,8 +1,6 @@
 (ns giants-shoulders.repl
   (:require [nrepl.server :as nrepl]
             [cider.nrepl :as cider]
-            [malli.dev :as malli-dev]
-            [malli.dev.pretty :as malli-pretty]
             [taoensso.timbre :as log]
             [portal.api :as portal]
             [rebel-readline.core :as rr]
@@ -14,8 +12,6 @@
 (defn start!
   "Start a development REPL, intended to be invoked from ./scripts/repl"
   [{:keys [portal]}]
-  (log/info "Starting malli dev instrumentation")
-  (malli-dev/start! {:report (malli-pretty/thrower)})
 
   (log/info "Starting nREPL server")
   (let [{:keys [port] :as _server} (nrepl/start-server :handler cider/cider-nrepl-handler)]
