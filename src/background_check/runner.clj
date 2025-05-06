@@ -2,8 +2,6 @@
   "Wrappers around typed.clojure that return type check results as data."
   (:require [typed.clojure :as t]))
 
-;; TODO Expand upon the t/Any placeholders.
-
 (t/ann t/check-dir-clj [(t/Seqable t/Str) :-> t/Nothing])
 
 (t/defalias TypedClojureExInfoData
@@ -45,10 +43,21 @@
 (t/ann
  check-dirs
  [(t/Seqable t/Str) :->
-  (t/HMap
-   :mandatory {:result (t/U (t/Val :ok) (t/Val :type-errors) (t/Val :exception))}
-   :optional {:type-errors (t/Seqable TypeError)
-              :exception t/Any})])
+  (t/U
+   (t/HMap
+    :mandatory
+    {:result (t/Val :ok)})
+
+   (t/HMap
+    :mandatory
+    {:result (t/Val :type-errors)
+     :type-errors (t/Seqable TypeError)})
+
+   (t/HMap
+    :mandatory
+    {:result (t/Val :exception)
+     :exception Throwable}))])
+
 (defn check-dirs
   "Type check the given directories and return the errors as data or nil if there are none."
   [dirs]
