@@ -4,11 +4,13 @@
             [background-check.runner :as runner]
             [typed.clojure :as t]))
 
-(t/ann
- plugin-post-run-hook
- [(t/HMap
+(t/defalias KaochaOptions
+  (t/HMap
    :optional
-   {:background-check/dirs (t/Seqable t/Str)})])
+   {:background-check/dirs (t/Seqable t/Str)}))
+
+(t/ann kaocha.plugin/-register [t/Keyword :-> t/Keyword])
+(t/ann plugin-post-run-hook [KaochaOptions :-> KaochaOptions])
 
 (kp/defplugin background-check.kaocha/plugin
   (post-run
