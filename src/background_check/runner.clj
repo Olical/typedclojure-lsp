@@ -31,7 +31,11 @@
              ^{::t/unsafe-cast TypedClojureExInfoData} (ex-data error)
 
              {:keys [line column file]} env]
-         (assert (and env form type-error line column file))
+         (assert env)
+         (assert type-error)
+         (assert line)
+         (assert column)
+         (assert file)
          {:message (ex-message error)
           :form form
           :type-error type-error
