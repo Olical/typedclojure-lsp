@@ -1,4 +1,4 @@
-(ns background-check.kaocha
+(ns ^:typed.clojure background-check.kaocha
   "Plugin that executes Typed Clojure."
   (:require [kaocha.plugin :as kp]
             [background-check.runner :as runner]
@@ -9,7 +9,7 @@
    :optional
    {:background-check/dirs (t/Seqable t/Str)}))
 
-(t/ann kaocha.plugin/-register [t/Keyword :-> t/Keyword])
+(t/ann ^:no-check kaocha.plugin/-register [t/Keyword :-> t/Keyword])
 (t/ann plugin-post-run-hook [KaochaOptions :-> KaochaOptions])
 
 (kp/defplugin background-check.kaocha/plugin
