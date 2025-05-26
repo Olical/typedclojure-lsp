@@ -6,7 +6,7 @@
 
 (t/deftest plugin-post-run-hook
   (t/testing "it calls check-dirs with the dirs config"
-    (with-redefs [runner/check-dirs (spy/spy)]
+    (with-redefs [runner/check-dirs (spy/spy (constantly {:result :ok}))]
       (let [dirs ["foo"]
             opts {:background-check/dirs dirs}]
         (t/is (= opts (kaocha/plugin-post-run-hook opts)))
