@@ -17,25 +17,19 @@
   (t/Merge
    TypedClojureExInfoData
    (t/HMap
-    :mandatory {:message (t/Nilable t/Str)})))
+    :mandatory {:message (t/Nilable t/Str)}
+    :complete? true)))
 
 (t/ann ExceptionInfo->type-errors [t/ExInfo :-> (t/ASeq TypeError)])
 (defn ExceptionInfo->type-errors
   "Takes an ExceptionInfo from Typed Clojure and converts it to a sequence of maps we can easily display."
   [exinf]
   (let [errors ^{::t/unsafe-cast (t/Seqable t/ExInfo)} (:errors (ex-data exinf))]
-    (assert errors)
     (map
      (fn [error]
        (let [{:keys [env form type-error]}
              ^{::t/unsafe-cast TypedClojureExInfoData} (ex-data error)
-
              {:keys [line column file]} env]
-         (assert env)
-         (assert type-error)
-         (assert line)
-         (assert column)
-         (assert file)
          {:message (ex-message error)
           :form form
           :type-error type-error
