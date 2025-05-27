@@ -14,15 +14,12 @@
  :kaocha.plugin.randomize/seed 605325435
  :kaocha.plugin.randomize/randomize? true
 
- :background-check/dirs ["dev/examples"]
-
  :kaocha/plugins
  [:kaocha.plugin/randomize
   :kaocha.plugin/filter
   :kaocha.plugin/capture-output
   :kaocha.plugin/profiling
-  :kaocha.plugin/hooks
-  :background-check.kaocha/plugin]
+  :kaocha.plugin/hooks]
 
  :kaocha.plugin.capture-output/capture-output? true
  :kaocha/reporter [kaocha.report.progress/report]

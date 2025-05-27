@@ -1,4 +1,4 @@
-(ns ^:typed.clojure background-check.runner
+(ns ^:typed.clojure typedclojure-lsp.runner
   "Wrappers around typed.clojure that return type check results as data."
   (:require [typed.clojure :as t]))
 
