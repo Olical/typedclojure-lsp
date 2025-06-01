@@ -1,5 +1,6 @@
 (ns typedclojure-lsp.lsp
   (:require [clojure.set :as set]
+            [clojure.core.async :as async]
             [lsp4clj.io-server :as io-server]
             [lsp4clj.server :as server]
             [aleph.tcp :as tcp]
@@ -8,7 +9,11 @@
             [taoensso.telemere :as te])
   (:import [java.io OutputStream PipedInputStream PipedOutputStream]))
 
+;; TODO Hook up https://github.com/nextjournal/beholder and typedclojure to type check on file change, or should it be driven by LSP?
+;; TODO Hook the server up to a channel pair for testing.
+
 ;; TODO Can this be cleaned up or simplified somehow? Am I missing a function that already exists that does this for me.
+;; TODO Can I just start a simpler socket server? I don't need manifold here https://github.com/clojure-lsp/lsp4clj?tab=readme-ov-file#other-types-of-servers
 (defn manifold-duplex->io-streams [duplex-stream]
   (let [pout (PipedOutputStream.)
         pin  (PipedInputStream. pout)
@@ -34,12 +39,21 @@
 
 ; (t/ann handler [manifold.stream.default.Stream map? :-> t/Nothing])
 (defn handler [duplex-stream client-info]
-  (te/log! {:level :info :data client-info} "Handling new connection.")
+  (te/log! {:level :info :data client-info} "New connection.")
   (let [lsp-server (io-server/server
                     (set/rename-keys
                      (manifold-duplex->io-streams duplex-stream)
                      {:input-stream :in
                       :output-stream :out}))]
+
+    (async/go-loop []
+      (when-let [[level & args] (async/<! (:log-ch lsp-server))]
+        (te/log!
+         {:level :info
+          :data {:level level
+                 :args args}}
+         "lsp4clj")
+        (recur)))
 
     (->> {:message "hello"
           :type "info"
@@ -55,5 +69,5 @@
 
 (comment
   (def server (start-server!))
-  (netty/port server)
-  (.close server))
+  (.close server)
+  (netty/port server))
