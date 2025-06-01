@@ -1,23 +1,59 @@
 (ns typedclojure-lsp.lsp
-  (:require [lsp4clj.io-server :as io-server]
+  (:require [clojure.set :as set]
+            [lsp4clj.io-server :as io-server]
+            [lsp4clj.server :as server]
             [aleph.tcp :as tcp]
             [aleph.netty :as netty]
             [manifold.stream :as s]
-            [taoensso.telemere :as te]))
+            [taoensso.telemere :as te])
+  (:import [java.io OutputStream PipedInputStream PipedOutputStream]))
+
+;; TODO Can this be cleaned up or simplified somehow? Am I missing a function that already exists that does this for me.
+(defn manifold-duplex->io-streams [duplex-stream]
+  (let [pout (PipedOutputStream.)
+        pin  (PipedInputStream. pout)
+        out (proxy [OutputStream] []
+              (write
+                ([b]
+                 (s/put! duplex-stream b))
+                ([b off len]
+                 (let [segment (java.util.Arrays/copyOfRange b off (+ off len))]
+                   (s/put! duplex-stream segment)))))]
+
+    (s/consume
+     (fn [msg]
+       (let [bytes (if (instance? (Class/forName "[B") msg)
+                     msg
+                     (.getBytes (str msg) "UTF-8"))]
+         (.write pout bytes)
+         (.flush pout)))
+     duplex-stream)
+
+    {:input-stream pin
+     :output-stream out}))
 
 ; (t/ann handler [manifold.stream.default.Stream map? :-> t/Nothing])
 (defn handler [duplex-stream client-info]
   (te/log! {:level :info :data client-info} "Handling new connection.")
-  (io-server/stdio-server
-   {:in duplex-stream
-    :out duplex-stream})
+  (let [lsp-server (io-server/server
+                    (set/rename-keys
+                     (manifold-duplex->io-streams duplex-stream)
+                     {:input-stream :in
+                      :output-stream :out}))]
+
+    (->> {:message "hello"
+          :type "info"
+          :extra {}}
+         (server/send-notification lsp-server "window/showMessage")))
   nil)
 
 ; (t/ann tcp/start-server [[manifold.stream.default.Stream map? :-> t/Nothing] :-> netty/AlephServer])
 ; (t/ann start-server! [:-> netty/AlephServer])
 (defn start-server! []
-  (tcp/start-server handler))
+  ;; TODO Random port, write to file that gets deleted on exit.
+  (tcp/start-server handler {:port 9999}))
 
 (comment
   (def server (start-server!))
-  (.shutdown server))
+  (netty/port server)
+  (.close server))
