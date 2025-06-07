@@ -41,8 +41,30 @@
            :params params}}
    "initialized"))
 
-(defn type-check-and-notify! []
-  (runner/check-dirs ["."]))
+(defn type-check-and-notify! [{:keys [server] :as _context}]
+  (te/log! :info "Running type checker...")
+  (let [{:keys [result type-errors] :as type-check-result} (runner/check-dirs ["dev" "src"])]
+    (te/log!
+     {:level :info
+      :data type-check-result})
+
+    (when (= result :type-errors)
+      (run!
+       (fn [[file-path type-errors-for-file]]
+         (server/send-notification
+          server "textDocument/publishDiagnostics"
+          {:uri file-path
+           :diagnostics
+           (map
+            (fn [{:keys [message form _type-error env]}]
+              {:source "typedclojure"
+               :message message
+               :range {:start {:line (:line env) :character (:column env)}
+                       :end {:line (:line env) :character (+ (:column env) (count (pr-str form)))}}})
+            type-errors-for-file)}))
+       (group-by (comp :file :env) type-errors))))
+
+  nil)
 
 (defmethod server/receive-notification "textDocument/didOpen"
   [_ context params]
@@ -51,7 +73,7 @@
     :data {:context context
            :params params}}
    "textDocument/didOpen")
-  (type-check-and-notify!))
+  (type-check-and-notify! context))
 
 (defmethod server/receive-notification "textDocument/didSave"
   [_ context params]
@@ -60,13 +82,13 @@
     :data {:context context
            :params params}}
    "textDocument/didSave")
-  (type-check-and-notify!))
+  (type-check-and-notify! context))
 
 ; (t/ann tcp/start-server [[manifold.stream.default.Stream map? :-> t/Nothing] :-> netty/AlephServer])
 ; (t/ann start-server! [:-> netty/AlephServer])
 (defn start-stdio-server! []
   (let [server (io-server/stdio-server)
-        context {}
+        context {:server server}
         start! (server/start server context)]
 
     (a/go-loop []
