@@ -1,12 +1,7 @@
 (ns typedclojure-lsp.lsp
-  (:require [clojure.java.io :as io]
-            [clojure.core.async :as a]
+  (:require [clojure.core.async :as a]
             [lsp4clj.server :as server]
             [lsp4clj.io-server :as io-server]
-            [aleph.tcp :as tcp]
-            [aleph.netty :as netty]
-            [manifold.stream :as s]
-            [clj-commons.byte-streams :as bs]
             [taoensso.telemere :as te]
             [typedclojure-lsp.runner :as runner]))
 
@@ -28,66 +23,6 @@
               :exception ex}}
       "Uncaught exception in thread"))))
 
-(defn manifold-stream->io-pair [duplex-stream]
-  (let [pout (java.io.PipedOutputStream.)
-        pin (java.io.PipedInputStream. pout)
-        out (proxy [java.io.OutputStream] []
-              (write
-                ([b]
-                 (s/put! duplex-stream b))
-                ([b off len]
-                 (let [segment (java.util.Arrays/copyOfRange b off (+ off len))]
-                   (s/put! duplex-stream segment)))))]
-
-    (s/consume
-     (fn [msg]
-       (.write pout msg)
-       (.flush pout))
-     duplex-stream)
-
-    {:in pin
-     :out out}))
-
-; (t/ann handler [manifold.stream.default.Stream map? :-> t/Nothing])
-(defn handler [duplex-stream client-info]
-  (try
-    (te/log! {:level :info :data client-info} "New connection.")
-    (let [lsp-server
-          (io-server/server
-           (merge
-            {:trace-level "verbose"}
-            (manifold-stream->io-pair duplex-stream)))]
-
-      (a/go-loop []
-        (when-let [[level & args] (a/<! (:log-ch lsp-server))]
-          (te/log!
-           {:level :info
-            :data {:level level
-                   :args args}}
-           "lsp4clj [log]")
-          (recur)))
-
-      (a/go-loop []
-        (when-let [[level & args] (a/<! (:trace-ch lsp-server))]
-          (te/log!
-           {:level :info
-            :data {:level level
-                   :args args}}
-           "lsp4clj [trace]")
-          (recur)))
-
-      (server/send-notification
-       lsp-server "window/showMessage"
-       {:message "hello from typedclojure-lsp\n"
-        :type "info"}))
-    nil
-    (catch Exception e
-      (te/log!
-       {:level :error
-        :data {:exception e}}
-       "Error in LSP handler")
-      (throw e))))
-
 (defmethod server/receive-request "initialize"
   [_ context params]
   (te/log!
@@ -95,7 +30,16 @@
     :data {:context context
            :params params}}
    "initialize")
-  {})
+  {:capabilities {}
+   :serverInfo {:name "typedclojure"}})
+
+(defmethod server/receive-notification "initialized"
+  [_ context params]
+  (te/log!
+   {:level :info
+    :data {:context context
+           :params params}}
+   "initialized"))
 
 (defn type-check-and-notify! []
   (runner/check-dirs ["."]))
@@ -120,11 +64,28 @@
 
 ; (t/ann tcp/start-server [[manifold.stream.default.Stream map? :-> t/Nothing] :-> netty/AlephServer])
 ; (t/ann start-server! [:-> netty/AlephServer])
-(defn start-server! []
-  ;; TODO Random port, write to file that gets deleted on exit.
-  (tcp/start-server handler {:port 9999}))
+(defn start-stdio-server! []
+  (let [server (io-server/stdio-server)
+        context {}
+        start! (server/start server context)]
 
-(comment
-  (def server (start-server!))
-  (.close server)
-  (netty/port server))
+    (a/go-loop []
+      (when-let [[level & args] (a/<! (:log-ch server))]
+        (te/log!
+         {:level :info
+          :data {:level level
+                 :args args}}
+         "lsp4clj [log]")
+        (recur)))
+
+    (a/go-loop []
+      (when-let [[level & args] (a/<! (:trace-ch server))]
+        (te/log!
+         {:level :info
+          :data {:level level
+                 :args args}}
+         "lsp4clj [trace]")
+        (recur)))
+
+    {:server server
+     :start! start!}))
