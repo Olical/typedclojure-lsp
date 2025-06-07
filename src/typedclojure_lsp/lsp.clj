@@ -33,24 +33,25 @@
   {:capabilities {}
    :serverInfo {:name "typedclojure"}})
 
-(defmethod server/receive-notification "initialized"
-  [_ context params]
-  (te/log!
-   {:level :info
-    :data {:context context
-           :params params}}
-   "initialized"))
-
-(defn type-check-and-notify! [{:keys [server] :as _context}]
+(defn type-check-and-notify! [{:keys [server files-with-diagnostics!] :as _context}]
   (te/log! :info "Running type checker...")
   (let [{:keys [result type-errors] :as type-check-result} (runner/check-dirs ["dev" "src"])]
     (te/log!
      {:level :info
       :data type-check-result})
 
+    (run!
+     (fn [path]
+       (server/send-notification
+        server "textDocument/publishDiagnostics"
+        {:uri path
+         :diagnostics []}))
+     @files-with-diagnostics!)
+
     (when (= result :type-errors)
       (run!
        (fn [[file-path type-errors-for-file]]
+         (swap! files-with-diagnostics! conj file-path)
          (server/send-notification
           server "textDocument/publishDiagnostics"
           {:uri file-path
@@ -65,6 +66,15 @@
        (group-by (comp :file :env) type-errors))))
 
   nil)
+
+(defmethod server/receive-notification "initialized"
+  [_ context params]
+  (te/log!
+   {:level :info
+    :data {:context context
+           :params params}}
+   "initialized")
+  (type-check-and-notify! context))
 
 (defmethod server/receive-notification "textDocument/didOpen"
   [_ context params]
@@ -88,7 +98,8 @@
 ; (t/ann start-server! [:-> netty/AlephServer])
 (defn start-stdio-server! []
   (let [server (io-server/stdio-server)
-        context {:server server}
+        context {:server server
+                 :files-with-diagnostics! (atom #{})}
         start! (server/start server context)]
 
     (a/go-loop []
