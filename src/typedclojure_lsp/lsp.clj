@@ -10,18 +10,6 @@
 ;; TODO Hook the server up to a channel pair for testing.
 ;; TODO Type check this namespace. Dog food is delicious!
 
-(te/add-handler! :typedclojure-lsp/file (te/handler:file {:path ".typedclojure-lsp/logs/typedclojure-lsp.log"}))
-(te/remove-handler! :default/console)
-
-(Thread/setDefaultUncaughtExceptionHandler
- (reify Thread$UncaughtExceptionHandler
-   (uncaughtException [_ thread ex]
-     (te/log!
-      {:level :error
-       :data {:thread (.getName thread)
-              :exception ex}}
-      "Uncaught exception in thread"))))
-
 (defn loggable-context [context]
   (assoc context :server ::elided))
 
