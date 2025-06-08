@@ -5,11 +5,7 @@
             [taoensso.telemere :as te]
             [typedclojure-lsp.runner :as runner]))
 
-;; TODO Hook up https://github.com/nextjournal/beholder and typedclojure to type check on file change, or should it be driven by LSP?
 ;; TODO Hook the server up to a channel pair for testing.
-
-;; TODO On textDocument/didOpen or textDocument/didSave, run the diagnostics. (almost there, Neovim isn't activating it though, so it's not attached to my buffer)
-;; TODO Run textDocument/publishDiagnostics with the results.
 
 (te/add-handler! :typedclojure-lsp/file (te/handler:file {:path ".typedclojure-lsp/logs/typedclojure-lsp.log"}))
 (te/remove-handler! :default/console)
@@ -30,7 +26,7 @@
     :data {:context context
            :params params}}
    "initialize")
-  {:capabilities {}
+  {:capabilities {:textDocumentSync {:openClose true}}
    :serverInfo {:name "typedclojure"}})
 
 (defn type-check-and-notify! [{:keys [server files-with-diagnostics!] :as _context}]
