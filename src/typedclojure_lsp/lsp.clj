@@ -1,11 +1,14 @@
 (ns typedclojure-lsp.lsp
   (:require [clojure.core.async :as a]
+            [clojure.java.classpath :as cp]
+            [clojure.string :as str]
             [lsp4clj.server :as server]
             [lsp4clj.io-server :as io-server]
             [taoensso.telemere :as te]
             [typedclojure-lsp.runner :as runner]))
 
 ;; TODO Hook the server up to a channel pair for testing.
+;; TODO Type check this namespace. Dog food is delicious!
 
 (te/add-handler! :typedclojure-lsp/file (te/handler:file {:path ".typedclojure-lsp/logs/typedclojure-lsp.log"}))
 (te/remove-handler! :default/console)
@@ -19,22 +22,35 @@
               :exception ex}}
       "Uncaught exception in thread"))))
 
+(defn loggable-context [context]
+  (assoc context :server ::elided))
+
 (defmethod server/receive-request "initialize"
   [_ context params]
   (te/log!
    {:level :info
-    :data {:context context
+    :data {:context (loggable-context context)
            :params params}}
    "initialize")
-  {:capabilities {:textDocumentSync {:openClose true}}
+  (reset! (:root-uri! context) (:root-path params))
+  {:capabilities {:textDocumentSync {:openClose true
+                                     :save {:includeText false}}}
    :serverInfo {:name "typedclojure"}})
 
-(defn type-check-and-notify! [{:keys [server files-with-diagnostics!] :as _context}]
+(defn type-check-and-notify! [{:keys [server files-with-diagnostics! root-uri!] :as _context}]
   (te/log! :info "Running type checker...")
-  (let [{:keys [result type-errors] :as type-check-result} (runner/check-dirs ["dev" "src"])]
+  (let [classpath-dirs (map #(.getCanonicalPath %) (cp/classpath))
+
+        ;; We can't just give the project root, typedclojure doesn't seem to do anything then.
+        ;; So instead we pass all the classpath dirs under the project root.
+        dirs-to-check (filter #(str/starts-with? % @root-uri!) classpath-dirs)
+
+        {:keys [result type-errors] :as type-check-result} (runner/check-dirs dirs-to-check)]
     (te/log!
      {:level :info
-      :data type-check-result})
+      :data {:dirs-to-check dirs-to-check
+             :type-check-result type-check-result}}
+     "Type checking result")
 
     (run!
      (fn [path]
@@ -67,7 +83,7 @@
   [_ context params]
   (te/log!
    {:level :info
-    :data {:context context
+    :data {:context (loggable-context context)
            :params params}}
    "initialized")
   (type-check-and-notify! context))
@@ -76,7 +92,7 @@
   [_ context params]
   (te/log!
    {:level :info
-    :data {:context context
+    :data {:context (loggable-context context)
            :params params}}
    "textDocument/didOpen")
   (type-check-and-notify! context))
@@ -85,7 +101,7 @@
   [_ context params]
   (te/log!
    {:level :info
-    :data {:context context
+    :data {:context (loggable-context context)
            :params params}}
    "textDocument/didSave")
   (type-check-and-notify! context))
@@ -95,7 +111,8 @@
 (defn start-stdio-server! []
   (let [server (io-server/stdio-server)
         context {:server server
-                 :files-with-diagnostics! (atom #{})}
+                 :files-with-diagnostics! (atom #{})
+                 :root-uri! (atom nil)}
         start! (server/start server context)]
 
     (a/go-loop []
