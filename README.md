@@ -59,6 +59,10 @@ Ideas on how to make this whole thing extremely flexible while also being very e
 
 Logs are written to `.typedclojure-lsp/logs/typedclojure-lsp.log` by default, you can turn that off with the optional `:logging?` configuration shown above. I recommend keeping it on for now just in case you run into an issue. When reporting issues please include some of your relevant logs to help us diagnose and fix problems.
 
+## Development
+
+When working on the project I use `"clojure" "-X:typedclojure-lsp:test:dev" "typedclojure-lsp.dev/start!"` as my `cmd` in my LSP configuration. This starts up the server with an nREPL that [Conjure](https://github.com/Olical/conjure) will automatically connect to giving me a tight feedback loop.
+
 ## Questions? Feedback?
 
 You can reach me through issues and discussions on this repo, I highly encourage feedback, good or bad. Alternatively you can reach me on [Mastodon](https://mastodon.social/@Olical) or the [Conjure Discord](https://discord.gg/wXAMr8F). Sometimes I write things on [oli.me.uk](https://discord.gg/wXAMr8F).
