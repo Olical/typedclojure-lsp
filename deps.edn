@@ -8,7 +8,8 @@
   org.typedclojure/typed.malli {:mvn/version "1.3.1-SNAPSHOT"}}
 
  :aliases
- {:test {:extra-deps {lambdaisland/kaocha {:mvn/version "1.91.1392"}
+ {:typedclojure-lsp {:extra-paths ["dev"]}
+  :test {:extra-deps {lambdaisland/kaocha {:mvn/version "1.91.1392"}
                       nubank/matcher-combinators {:mvn/version "3.9.1"}
                       tortue/spy {:mvn/version "2.15.0"}}
          :main-opts ["-m" "kaocha.runner"]}
