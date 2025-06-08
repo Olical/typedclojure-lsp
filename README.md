@@ -8,6 +8,25 @@ Please let me know your setup (text editor, Clojure toolchain) and your experien
 
 We currently publish through GitHub with tagged releases. We start this server through the [Clojure CLI](https://clojure.org/guides/deps_and_cli) (for now, see the issues section below), there are no other published artifacts yet. Please subscribe to the releases on GitHub if you'd like to keep up to date. When there's a new version you'll need to bump your tag and sha in your LSP configuration, shown below.
 
+## Typed Clojure version
+
+The project currently depends on Typed Clojure `1.3.1-SNAPSHOT`, it also includes the [malli](https://github.com/metosin/malli) bridge and the `clojure.core` types. The latest Typed Clojure requires a metadata tag on your namespace as shown in this example (which also demonstrates the malli integration).
+
+```clojure
+;; This ^:typed.clojure keyword is required!
+(ns ^:typed.clojure examples.core
+  (:require [malli.experimental :as mx]))
+
+(mx/defn add :- number?
+  "If you have LSP configured correctly you should see a type error / warning if you try to type (add :foo 10) inside this buffer."
+  [a :- number?
+   b :- number?]
+  (+ a b))
+
+(mx/defn a-bad-fn :- number? []
+  (add :foo 10)) ;; => Function add could not be applied to arguments... [would appear in your editor]
+```
+
 ## Editor LSP configuration
 
 ### Neovim (Fennel)
