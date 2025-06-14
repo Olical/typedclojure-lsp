@@ -4,12 +4,13 @@
 
 (defn start!
   "Start up the LSP with an nREPL for development."
-  [{:keys [logging?]
-    :or {logging? true}}]
+  [_params]
 
   (te/remove-handler! :default/console)
-  (when logging?
-    (te/add-handler! :typedclojure-lsp/file (te/handler:file {:path ".typedclojure-lsp/logs/typedclojure-lsp.log"})))
+  (te/add-handler!
+   :typedclojure-lsp/console
+   (binding [*out* *err*]
+     (te/handler:console)))
 
   (Thread/setDefaultUncaughtExceptionHandler
    (reify Thread$UncaughtExceptionHandler
