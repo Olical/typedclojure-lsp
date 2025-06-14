@@ -87,7 +87,7 @@ clojure -M:typedclojure-lsp
   {:typedclojure-lsp {:dependencies [[uk.me.oli/typedclojure-lsp "${VERSION (see clojars badge)}"]]}}
 
   :aliases
-  {"typedclojure-lsp" ["with-profile" "+typedclojure-lsp" "run" "-m" "typedclojure-lsp.main/start!"]})
+  {"typedclojure-lsp" ["with-profile" "+typedclojure-lsp" "run" "-m" "typedclojure-lsp.main"]})
 ```
 
 #### `.typedclojure-lsp/start`
@@ -103,7 +103,7 @@ Logs are written to stderr and should be visible within your LSP client (text ed
 
 ## Development
 
-When working on the project I use `"clojure" "-X:typedclojure-lsp:test:dev" "typedclojure-lsp.dev/start!"` as my `cmd` in my LSP configuration. This starts up the server with an nREPL that [Conjure](https://github.com/Olical/conjure) will automatically connect to giving me a tight feedback loop.
+The repository already has `.typedclojure-lsp/start` configured for local development on the tool itself. This starts up the server with an nREPL that [Conjure](https://github.com/Olical/conjure) will automatically connect to giving you a tight feedback loop.
 
 ## Questions? Feedback?
 
