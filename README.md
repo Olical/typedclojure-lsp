@@ -43,9 +43,7 @@ Identical to the Fennel solution above, but you paste this Lua into `~/.config/n
 
 ```lua
 return {
-    cmd = {
-        ".typedclojure-lsp/start"
-    },
+    cmd = {".typedclojure-lsp/start"},
     filetypes = {"clojure"},
     root_markers = {"deps.edn", "project.clj", ".git"}
 }
