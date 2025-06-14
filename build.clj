@@ -6,16 +6,26 @@
 
 ;; TODO Use the GitHub rev / tag
 ;; https://github.com/jlesquembre/clojars-publish-action/blob/89a4eb7bdbe1270621e6643250afce152701699e/src/entrypoint.clj#L41-L47
-(def version "0.0.1") ; (b/git-count-revs nil)
+(def version "0.0.2") ; (b/git-count-revs nil)
 
 (def class-dir "target/classes")
 (def jar-file (format "target/%s-%s.jar" (name lib) version))
 
 (def pom-template
-  [[:licenses
+  [[:description "Typed Clojure in your editor over LSP."]
+   [:url "https://github.com/Olical/typedclojure-lsp"]
+   [:licenses
     [:license
-     [:name "UNLICENSE"]
-     [:url "https://unlicense.org/"]]]])
+     [:name "Unlicense"]
+     [:url "https://unlicense.org/"]]]
+   [:developers
+    [:developer
+     [:name "Oliver Caldwell"]]]
+   [:scm
+    [:url "https://github.com/Olical/typedclojure-lsp"]
+    [:connection "scm:git:https://github.com/Olical/typedclojure-lsp.git"]
+    [:developerConnection "scm:git:ssh://git@github.com:Olical/typedclojure-lsp.git"]
+    [:tag (str "v" version)]]])
 
 (def basis (delay (b/create-basis {:project "deps.edn"})))
 
