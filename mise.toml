@@ -16,3 +16,9 @@ run = "clojure -M:antq"
 [tasks.repl]
 raw = true
 run = "clojure -X:test:dev:flowstorm giants-shoulders.repl/start!"
+
+[tasks.build]
+run = "clojure -T:build jar"
+
+[tasks.clean]
+run = "clojure -T:build clean"

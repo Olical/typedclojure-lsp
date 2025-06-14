@@ -2,5 +2,6 @@
 .clj-kondo/
 !.clj-kondo/config.edn
 .lsp/
+target/
 .rebel_readline_history
 .nrepl-port

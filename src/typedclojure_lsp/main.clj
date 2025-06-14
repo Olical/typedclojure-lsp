@@ -1,6 +1,7 @@
 (ns typedclojure-lsp.main
   (:require [taoensso.telemere :as te]
-            [typedclojure-lsp.lsp :as lsp]))
+            [typedclojure-lsp.lsp :as lsp])
+  (:gen-class))
 
 (defn start!
   "Start up the LSP with an nREPL for development."
@@ -27,3 +28,6 @@
 
   (shutdown-agents)
   (System/exit 0))
+
+(defn -main [& _args]
+  (start! {}))
