@@ -4,10 +4,6 @@
 
 Please let me know your setup (text editor, Clojure toolchain) and your experience. If you get this working in an editor and there's no documentation for it yet, please feel free to open a PR adding your notes to the README.
 
-## Distribution and versions
-
-We currently publish through GitHub with tagged releases. We start this server through the [Clojure CLI](https://clojure.org/guides/deps_and_cli) (for now, see the issues section below), there are no other published artifacts yet. Please subscribe to the releases on GitHub if you'd like to keep up to date. When there's a new version you'll need to bump your tag and sha in your LSP configuration, shown below.
-
 ## Typed Clojure version
 
 The project currently depends on Typed Clojure `1.3.1-SNAPSHOT`, it also includes the [malli](https://github.com/metosin/malli) bridge and the `clojure.core` types. The latest Typed Clojure requires a metadata tag on your namespace as shown in this example (which also demonstrates the malli integration).
@@ -35,7 +31,7 @@ If you're using [nfnl](https://github.com/Olical/nfnl) or a similar Fennel compi
 
 ```fennel
 {:cmd ["clojure" "-Sdeps"
-       "{:deps {io.github.Olical/typedclojure-lsp {:git/tag \"v0.0.1\", :git/sha \"05bfd50\"}}}"
+       "{:deps {io.github.Olical/typedclojure-lsp {:mvn/version \"0.0.2\"}}}"
        "-X:typedclojure-lsp" "typedclojure-lsp.main/start!"]
  :filetypes ["clojure"]
  :root_markers ["deps.edn" "project.clj" ".git"]}
@@ -50,7 +46,7 @@ return {
     cmd = {
         "clojure",
         "-Sdeps",
-        '{:deps {io.github.Olical/typedclojure-lsp {:git/tag "v0.0.1", :git/sha "05bfd50"}}}',
+        '{:deps {io.github.Olical/typedclojure-lsp {:mvn/version "0.0.2"}}}',
         "-X:typedclojure-lsp",
         "typedclojure-lsp.main/start!"
     },
