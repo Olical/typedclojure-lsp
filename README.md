@@ -1,4 +1,4 @@
-# Typed Clojure LSP
+# Typed Clojure LSP [![Clojars Project](https://img.shields.io/clojars/v/uk.me.oli/typedclojure-lsp.svg)](https://clojars.org/uk.me.oli/typedclojure-lsp)
 
 [Typed Clojure](https://github.com/typedclojure/typedclojure) in your editor over LSP. This project is still very fresh, feedback is greatly appreciated.
 
