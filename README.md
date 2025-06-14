@@ -55,7 +55,7 @@ Once your editor is configured to invoke this script, you can add different scri
 
 Here's some starting points for different situations, please feel free to add more here if you work out how to get this working under different tooling.
 
-### `tools.cli` / Clojure CLI
+### Clojure CLI / `tools.cli`
 
 We can invoke the start function with the right dependency right from the CLI, no need to modify your `deps.edn`. Of course you _can_ add an alias to your `deps.edn` and invoke that too, up to you!
 
