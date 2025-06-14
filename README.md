@@ -25,14 +25,14 @@ The project currently depends on Typed Clojure `1.3.1-SNAPSHOT`, it also include
 
 ## Editor LSP configuration
 
+We configure our editor to attempt to invoke a known script in each directory when we open a Clojure project file. This gives us the flexibility to configure how the LSP server starts and which version we use _per-project_. First we'll get our editor invoking the script, then we can fill the script out in our project depending on the tooling it relies on.
+
 ### Neovim (Fennel)
 
 If you're using [nfnl](https://github.com/Olical/nfnl) or a similar Fennel compiler system you can paste the following into `~/.config/nvim/lsp/typedclojure.fnl`. As long as you're calling `vim.lsp.enable` somewhere with `"typedclojure"` as an argument, everything should work automatically when you open a Clojure file.
 
 ```fennel
-{:cmd ["clojure" "-Sdeps"
-       "{:deps {io.github.Olical/typedclojure-lsp {:mvn/version \"0.0.2\"}}}"
-       "-X:typedclojure-lsp" "typedclojure-lsp.main/start!"]
+{:cmd [".typedclojure-lsp/start"]
  :filetypes ["clojure"]
  :root_markers ["deps.edn" "project.clj" ".git"]}
 ```
@@ -44,28 +44,53 @@ Identical to the Fennel solution above, but you paste this Lua into `~/.config/n
 ```lua
 return {
     cmd = {
-        "clojure",
-        "-Sdeps",
-        '{:deps {io.github.Olical/typedclojure-lsp {:mvn/version "0.0.2"}}}',
-        "-X:typedclojure-lsp",
-        "typedclojure-lsp.main/start!"
+        ".typedclojure-lsp/start"
     },
     filetypes = {"clojure"},
     root_markers = {"deps.edn", "project.clj", ".git"}
 }
 ```
 
-## Customising the Clojure environment
+## Your project local start script
 
-As you can see in the recommended configuration, we provide `-X:typedclojure-lsp` as an argument to Clojure. This means that a `:typedclojure-lsp` alias in your project local `deps.edn` file can add extra paths or dependencies where required.
+Once your editor is configured to invoke this script, you can add different scripts to your project depending on your tooling choices or special requirements. You might have one per project that your team share or maybe keep them entirely private if you have differing OS needs. Maybe have a shared core script that invokes a sub-script that each of your team members can customise. The possibilities are endless and dictated by each of your projects.
 
-You can obviously also modify the `cmd` to apply other aliases where required if your project requires a very specific combination of dependencies and paths in order to load.
+Here's some starting points for different situations, please feel free to add more here if you work out how to get this working under different tooling.
 
-## Issues, unknowns and things to address
+### `tools.cli` / Clojure CLI
 
-Leiningen projects are obviously a big one, this assumes `deps.edn` for now but I'd like to find a way to have it support any kind of Clojure project shape. It'd also be great to have some more project local configuration, maybe have it look for a script like `.typedclojure-lsp/start.sh` - if found that is executed which invokes the command documented above.
+We can invoke the start function with the right dependency right from the CLI, no need to modify your `deps.edn`. Of course you _can_ add an alias to your `deps.edn` and invoke that too, up to you!
 
-Ideas on how to make this whole thing extremely flexible while also being very easy to configure are appreciated! Obviously it's not ideal to have to change your global LSP configuration as you hop between Clojure projects, so something project local is a must eventually.
+#### `.typedclojure-lsp/start`
+
+```bash
+#!/usr/bin/env bash
+clojure -Sdeps '{:deps {uk.me.oli/typedclojure-lsp {:mvn/version "${VERSION (see clojars badge)}"}}}' typedclojure-lsp.main/start!
+```
+
+### Leiningen
+
+We have to add the dependency under a profile in `project.clj` and then invoke the start function with that profile, in this case through an alias.
+
+#### `project.clj`
+
+```clojure
+(defproject demo "0.1.0-SNAPSHOT"
+  :dependencies []
+
+  :profiles
+  {:typedclojure-lsp {:dependencies [[uk.me.oli/typedclojure-lsp "${VERSION (see clojars badge)}"]]}}
+
+  :aliases
+  {"typedclojure-lsp" ["with-profile" "+typedclojure-lsp" "run" "-m" "typedclojure-lsp.main/start!"]})
+```
+
+#### `.typedclojure-lsp/start`
+
+```bash
+#!/usr/bin/env bash
+lein typedclojure-lsp
+```
 
 ## Logging
 
