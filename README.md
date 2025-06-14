@@ -57,18 +57,25 @@ Here's some starting points for different situations, please feel free to add mo
 
 ### Clojure CLI / `tools.cli`
 
-We can invoke the start function with the right dependency right from the CLI, no need to modify your `deps.edn`. Of course you _can_ add an alias to your `deps.edn` and invoke that too, up to you!
+#### `deps.edn`
+
+```clojure
+{:deps
+ {org.clojure/clojure {:mvn/version "..."}
+
+ :aliases
+ {:typedclojure-lsp {:extra-deps {uk.me.oli/typedclojure-lsp {:mvn/version "${VERSION (see clojars badge)}"}}
+                     :main-opts ["-m" "typedclojure-lsp.main"]}}}}
+```
 
 #### `.typedclojure-lsp/start`
 
 ```bash
 #!/usr/bin/env bash
-clojure -Sdeps '{:deps {uk.me.oli/typedclojure-lsp {:mvn/version "${VERSION (see clojars badge)}"}}}' typedclojure-lsp.main/start!
+clojure -M:typedclojure-lsp
 ```
 
 ### Leiningen
-
-We have to add the dependency under a profile in `project.clj` and then invoke the start function with that profile, in this case through an alias.
 
 #### `project.clj`
 

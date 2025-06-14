@@ -28,3 +28,6 @@
 
   (shutdown-agents)
   (System/exit 0))
+
+(defn -main [& _args]
+  (start! {}))
