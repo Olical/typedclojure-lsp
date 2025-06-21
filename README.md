@@ -4,6 +4,8 @@
 
 Please let me know your setup (text editor, Clojure toolchain) and your experience. If you get this working in an editor and there's no documentation for it yet, please feel free to open a PR adding your notes to the README.
 
+![image](https://github.com/user-attachments/assets/7ed4cfd3-8c5a-4b01-a456-6c186c1ee094)
+
 ## Typed Clojure version
 
 The project currently depends on Typed Clojure `1.3.1-SNAPSHOT`, it also includes the [malli](https://github.com/metosin/malli) bridge and the `clojure.core` types. The latest Typed Clojure requires a metadata tag on your namespace as shown in this example (which also demonstrates the malli integration).
