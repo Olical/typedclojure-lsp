@@ -2,8 +2,6 @@
 
 [Typed Clojure](https://github.com/typedclojure/typedclojure) in your editor over LSP. This project is still very fresh, feedback is greatly appreciated.
 
-Please let me know your setup (text editor, Clojure toolchain) and your experience. If you get this working in an editor and there's no documentation for it yet, please feel free to open a PR adding your notes to the README.
-
 ![image](https://github.com/user-attachments/assets/7ed4cfd3-8c5a-4b01-a456-6c186c1ee094)
 
 ## Editor LSP configuration
@@ -32,7 +30,7 @@ return {
 }
 ```
 
-## Your project local start script
+## Project local start script
 
 Once your editor is configured to invoke this script, you can add different scripts to your project depending on your tooling choices or special requirements. You might have one per project that your team share or maybe keep them entirely private if you have differing OS needs. Maybe have a shared core script that invokes a sub-script that each of your team members can customise. The possibilities are endless and dictated by each of your projects.
 
