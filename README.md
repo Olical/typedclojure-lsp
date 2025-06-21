@@ -6,25 +6,6 @@ Please let me know your setup (text editor, Clojure toolchain) and your experien
 
 ![image](https://github.com/user-attachments/assets/7ed4cfd3-8c5a-4b01-a456-6c186c1ee094)
 
-## Typed Clojure version
-
-The project currently depends on Typed Clojure `1.3.1-SNAPSHOT`, it also includes the [malli](https://github.com/metosin/malli) bridge and the `clojure.core` types. The latest Typed Clojure requires a metadata tag on your namespace as shown in this example (which also demonstrates the malli integration).
-
-```clojure
-;; This ^:typed.clojure keyword is required!
-(ns ^:typed.clojure examples.core
-  (:require [malli.experimental :as mx]))
-
-(mx/defn add :- number?
-  "If you have LSP configured correctly you should see a type error / warning if you try to type (add :foo 10) inside this buffer."
-  [a :- number?
-   b :- number?]
-  (+ a b))
-
-(mx/defn a-bad-fn :- number? []
-  (add :foo 10)) ;; => Function add could not be applied to arguments... [would appear in your editor]
-```
-
 ## Editor LSP configuration
 
 We configure our editor to attempt to invoke a known script in each directory when we open a Clojure project file. This gives us the flexibility to configure how the LSP server starts and which version we use _per-project_. First we'll get our editor invoking the script, then we can fill the script out in our project depending on the tooling it relies on.
@@ -99,9 +80,24 @@ clojure -M:typedclojure-lsp
 lein typedclojure-lsp
 ```
 
-## Logging
+## Typed Clojure version
 
-Logs are written to stderr and should be visible within your LSP client (text editor) somewhere. In Neovim you can see them in `:LspLog`, in VS Code you can view them under `View > Output > Select typedclojure-lsp from the list`.
+The project currently depends on Typed Clojure `1.3.1-SNAPSHOT`, it also includes the [malli](https://github.com/metosin/malli) bridge and the `clojure.core` types. The latest Typed Clojure requires a metadata tag on your namespace as shown in this example (which also demonstrates the malli integration).
+
+```clojure
+;; This ^:typed.clojure keyword is required!
+(ns ^:typed.clojure examples.core
+  (:require [malli.experimental :as mx]))
+
+(mx/defn add :- number?
+  "If you have LSP configured correctly you should see a type error / warning if you try to type (add :foo 10) inside this buffer."
+  [a :- number?
+   b :- number?]
+  (+ a b))
+
+(mx/defn a-bad-fn :- number? []
+  (add :foo 10)) ;; => Function add could not be applied to arguments... [would appear in your editor]
+```
 
 ## Development
 
