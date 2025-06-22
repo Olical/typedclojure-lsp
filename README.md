@@ -80,7 +80,7 @@ lein typedclojure-lsp
 
 ## Typed Clojure version
 
-The project currently depends on Typed Clojure `1.4.0-SNAPSHOT`, it also includes the [malli](https://github.com/metosin/malli) bridge and the `clojure.core` types. The latest Typed Clojure requires a metadata tag on your namespace as shown in this example (which also demonstrates the malli integration).
+The project currently depends on Typed Clojure `1.3.1-SNAPSHOT`, it also includes the [malli](https://github.com/metosin/malli) bridge and the `clojure.core` types. The latest Typed Clojure requires a metadata tag on your namespace as shown in this example (which also demonstrates the malli integration).
 
 ```clojure
 ;; This ^:typed.clojure keyword is required!

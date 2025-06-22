@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-clojure -X:typedclojure-lsp:test:dev:build typedclojure-lsp.dev/start!
+clojure -X:test:dev:build typedclojure-lsp.dev/start!
 # clojure -M:typedclojure-lsp
