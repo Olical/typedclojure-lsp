@@ -8,10 +8,7 @@
   [_params]
 
   (te/remove-handler! :default/console)
-  (te/add-handler!
-   :typedclojure-lsp/console
-   (binding [*out* *err*]
-     (te/handler:console)))
+  (te/add-handler! :typedclojure-lsp/console (te/handler:console {:stream :err}))
 
   (Thread/setDefaultUncaughtExceptionHandler
    (reify Thread$UncaughtExceptionHandler
