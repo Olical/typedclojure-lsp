@@ -4,7 +4,7 @@
   (:gen-class))
 
 (defn start!
-  "Start up the LSP with an nREPL for development."
+  "Start up the LSP server over stdio."
   [_params]
 
   (te/remove-handler! :default/console)

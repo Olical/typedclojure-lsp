@@ -46,7 +46,7 @@ Here's some starting points for different situations, please feel free to add mo
 
  :aliases
  {:typedclojure-lsp {:extra-deps {uk.me.oli/typedclojure-lsp {:mvn/version "${VERSION (see clojars badge)}"}}
-                     :main-opts ["-m" "typedclojure-lsp.lsp"]}}}}
+                     :main-opts ["-m" "typedclojure-lsp.main"]}}}}
 ```
 
 #### `.typedclojure-lsp/start`
@@ -68,7 +68,7 @@ clojure -M:typedclojure-lsp
   {:typedclojure-lsp {:dependencies [[uk.me.oli/typedclojure-lsp "${VERSION (see clojars badge)}"]]}}
 
   :aliases
-  {"typedclojure-lsp" ["with-profile" "+typedclojure-lsp" "run" "-m" "typedclojure-lsp.lsp"]})
+  {"typedclojure-lsp" ["with-profile" "+typedclojure-lsp" "run" "-m" "typedclojure-lsp.main"]})
 ```
 
 #### `.typedclojure-lsp/start`
