@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
 
-clojure -X:test:dev:build typedclojure-lsp.dev/start!
-# clojure -M:typedclojure-lsp
+mise dev
