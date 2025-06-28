@@ -78,6 +78,12 @@ clojure -M:typedclojure-lsp
 lein typedclojure-lsp
 ```
 
+## Type checking at the CLI or in CI
+
+Although you can call Typed Clojure yourself using the official documentation, this project provides a helper that executes it against the same paths as the LSP server to keep things consistent. To execute the runner in your terminal or CI you can use the same `deps.edn` or `project.clj` setup described above but with `typedclojure-lsp.main` replaced with `typedclojure-lsp.runner`.
+
+For example, with the Clojure CLI you may execute `clojure -M:typedclojure-lsp -m typedclojure-lsp.runner` to run the type checker outside of your editor. Please [Clojure Template](https://github.com/Olical/clojure-template) for an example project that includes this configuration and a pre-configured GitHub action.
+
 ## Typed Clojure version
 
 The project currently depends on Typed Clojure `1.3.1-SNAPSHOT`, it also includes the [malli](https://github.com/metosin/malli) bridge and the `clojure.core` types. The latest Typed Clojure requires a metadata tag on your namespace as shown in this example (which also demonstrates the malli integration).
