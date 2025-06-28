@@ -74,7 +74,7 @@
 (defn -main
   "Execute the type checker for classpath directories under your current working directory. Will exit 1 if there's errors, 0 if not. Use this to check your types outside of your editor, such as in CI."
   [& _args]
-  (check-dirs
+  (t/check-dir-clj
    (filter
     #(str/starts-with? % (path/current-directory))
     (path/classpath-dirs))))
