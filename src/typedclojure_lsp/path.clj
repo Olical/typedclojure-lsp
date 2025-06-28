@@ -3,8 +3,6 @@
             [clojure.java.classpath :as cp]
             [typed.clojure :as t]))
 
-(set! *warn-on-reflection* true)
-
 (t/ann cp/classpath [-> (t/Seqable java.io.File)])
 (t/ann classpath-dirs [-> (t/Seqable t/Str)])
 (defn classpath-dirs []
