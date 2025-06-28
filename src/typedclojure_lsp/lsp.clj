@@ -1,10 +1,10 @@
 (ns typedclojure-lsp.lsp
   (:require [clojure.core.async :as a]
-            [clojure.java.classpath :as cp]
             [clojure.string :as str]
             [lsp4clj.server :as server]
             [lsp4clj.io-server :as io-server]
             [taoensso.telemere :as te]
+            [typedclojure-lsp.path :as path]
             [typedclojure-lsp.runner :as runner]))
 
 ;; TODO Hook the server up to a channel pair for testing.
@@ -27,11 +27,9 @@
 
 (defn type-check-and-notify! [{:keys [server files-with-diagnostics! root-uri!] :as _context}]
   (te/log! :info "Running type checker...")
-  (let [classpath-dirs (map #(.getCanonicalPath %) (cp/classpath))
-
-        ;; We can't just give the project root, typedclojure doesn't seem to do anything then.
+  (let [;; We can't just give the project root, typedclojure doesn't seem to do anything then.
         ;; So instead we pass all the classpath dirs under the project root.
-        dirs-to-check (filter #(str/starts-with? % @root-uri!) classpath-dirs)
+        dirs-to-check (filter #(str/starts-with? % @root-uri!) (path/classpath-dirs))
 
         {:keys [result type-errors] :as type-check-result} (runner/check-dirs dirs-to-check)]
     (te/log!

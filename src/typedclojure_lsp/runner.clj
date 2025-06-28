@@ -1,6 +1,8 @@
 (ns ^:typed.clojure typedclojure-lsp.runner
   "Wrappers around typed.clojure that return type check results as data."
-  (:require [typed.clojure :as t]))
+  (:require [clojure.string :as str]
+            [typed.clojure :as t]
+            [typedclojure-lsp.path :as path]))
 
 (t/ann t/check-dir-clj [(t/Seqable t/Str) :-> t/Nothing])
 
@@ -68,3 +70,11 @@
     (catch Throwable e
       {:result :exception
        :exception e})))
+
+(defn -main
+  "Execute the type checker for classpath directories under your current working directory. Will exit 1 if there's errors, 0 if not. Use this to check your types outside of your editor, such as in CI."
+  [& _args]
+  (check-dirs
+   (filter
+    #(str/starts-with? % (path/current-directory))
+    (path/classpath-dirs))))

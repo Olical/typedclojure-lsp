@@ -11,7 +11,7 @@ run = "clojure -M:test:dev"
 
 [tasks.typecheck]
 raw = true
-run = "clojure -M:typedclojure -e \"(require 'typed.clojure) (typed.clojure/check-dir-clj [\\\"src\\\"])\""
+run = "clojure -M -m typedclojure-lsp.runner"
 
 [tasks.antq]
 raw = true
