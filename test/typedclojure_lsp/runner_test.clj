@@ -24,4 +24,17 @@
            (runner/check-dirs ["dev/giants_shoulders"]))))
 
   (t/testing "returns :ok if everything is fine"
-    (t/is (= {:result :ok} (runner/check-dirs ["src"])))))
+    (t/is (= {:result :ok} (runner/check-dirs ["src"]))))
+
+  (t/testing "type error data has the expected shape for LSP consumption"
+    (let [{:keys [type-errors]} (runner/check-dirs ["dev/examples"])]
+      (t/is (seq type-errors) "should have at least one error")
+      (doseq [error type-errors]
+        (t/is (string? (:message error)) "error should have a string message")
+        (t/is (some? (:form error)) "error should have a form")
+        (t/is (keyword? (:type-error error)) "error should have a keyword type-error")
+        (t/is (map? (:env error)) "error should have an env map")
+        (let [{:keys [line column file]} (:env error)]
+          (t/is (number? line) "env should have a numeric line")
+          (t/is (number? column) "env should have a numeric column")
+          (t/is (string? file) "env should have a string file"))))))
