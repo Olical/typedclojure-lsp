@@ -149,7 +149,7 @@
         (let [diag (get-in schema ["definitions" "Diagnostic"])]
           (t/is (some? diag))
           (t/is (= {"$ref" "#/definitions/Range"}
-                    (get-in diag ["properties" "range"])))))
+                   (get-in diag ["properties" "range"])))))
 
       (t/testing "PublishDiagnosticsParams definition exists"
         (t/is (some? (get-in schema ["definitions" "PublishDiagnosticsParams"]))))

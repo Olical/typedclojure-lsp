@@ -37,11 +37,11 @@
                                         {:result :type-errors
                                          :type-errors mock-type-errors})
                     path/classpath-dirs (fn []
-                                         ["/home/user/project/src"
-                                          "/home/user/project/test"
-                                          "/other/project/src"])
+                                          ["/home/user/project/src"
+                                           "/home/user/project/test"
+                                           "/other/project/src"])
                     server/send-notification (fn [_server method params]
-                                              (swap! notifications conj {:method method :params params}))]
+                                               (swap! notifications conj {:method method :params params}))]
         (lsp/type-check-and-notify! context)
         (t/is (= 1 (count @notifications)))
         (t/is (match?
@@ -63,10 +63,10 @@
       (with-redefs [runner/check-dirs (fn [_dirs]
                                         {:result :ok})
                     path/classpath-dirs (fn []
-                                         ["/home/user/project/src"
-                                          "/home/user/project/test"])
+                                          ["/home/user/project/src"
+                                           "/home/user/project/test"])
                     server/send-notification (fn [_server method params]
-                                              (swap! notifications conj {:method method :params params}))]
+                                               (swap! notifications conj {:method method :params params}))]
         (lsp/type-check-and-notify! context)
         (t/is (= 1 (count @notifications)))
         (t/is (match?

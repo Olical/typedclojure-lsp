@@ -39,11 +39,11 @@
     "literal"
     (let [props (get-in type-desc ["value" "properties"])
           properties (into {} (map (fn [p]
-                                    [(get p "name") (convert-type (get p "type"))]))
-                          props)
+                                     [(get p "name") (convert-type (get p "type"))]))
+                           props)
           required (into [] (comp (remove #(get % "optional"))
-                                 (map #(get % "name")))
-                        props)]
+                                  (map #(get % "name")))
+                         props)]
       {"type" "object"
        "properties" properties
        "required" required
@@ -68,11 +68,11 @@
   [structure]
   (let [props (get structure "properties" [])
         properties (into {} (map (fn [p]
-                                  [(get p "name") (convert-type (get p "type"))]))
-                        props)
+                                   [(get p "name") (convert-type (get p "type"))]))
+                         props)
         required (into [] (comp (remove #(get % "optional"))
                                 (map #(get % "name")))
-                      props)
+                       props)
         obj-schema {"type" "object"
                     "properties" properties
                     "required" required
