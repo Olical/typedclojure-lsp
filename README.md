@@ -47,7 +47,7 @@ If you don't use `clojure-lsp`, remove it from the `language-servers` array.
 
 ### VS Code
 
-A minimal VS Code extension is included in the `vscode-extension/` directory. To build and install it:
+The extension is not yet published to the VS Code marketplace but you can build and install it locally from the `vscode-extension/` directory:
 
 ```bash
 cd vscode-extension
