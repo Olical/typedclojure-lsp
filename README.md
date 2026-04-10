@@ -30,6 +30,21 @@ return {
 }
 ```
 
+### Helix
+
+Add the following to `~/.config/helix/languages.toml` (or `.helix/languages.toml` in your project root for per-project config).
+
+```toml
+[language-server.typedclojure-lsp]
+command = ".typedclojure-lsp/start"
+
+[[language]]
+name = "clojure"
+language-servers = ["clojure-lsp", "typedclojure-lsp"]
+```
+
+If you don't use `clojure-lsp`, remove it from the `language-servers` array.
+
 ## Project local start script
 
 Once your editor is configured to invoke this script, you can add different scripts to your project depending on your tooling choices or special requirements. You might have one per project that your team share or maybe keep them entirely private if you have differing OS needs. Maybe have a shared core script that invokes a sub-script that each of your team members can customise. The possibilities are endless and dictated by each of your projects.
