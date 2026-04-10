@@ -22,11 +22,11 @@
 
 (defn- validate-outgoing!
   "Validate an outgoing LSP message against its schema.
-  Logs a warning if validation fails but does not throw."
+  Logs an error if validation fails since this indicates a bug in us."
   [schema-id message]
   (when-let [error (schema/validate schema-id message)]
     (te/log!
-     {:level :warn
+     {:level :error
       :data {:schema-id schema-id
              :error error
              :message message}}
