@@ -45,6 +45,20 @@ language-servers = ["clojure-lsp", "typedclojure-lsp"]
 
 If you don't use `clojure-lsp`, remove it from the `language-servers` array.
 
+### VS Code
+
+A minimal VS Code extension is included in the `vscode-extension/` directory. To build and install it:
+
+```bash
+cd vscode-extension
+npx @vscode/vsce package --allow-missing-repository
+code --install-extension typedclojure-lsp-0.0.1.vsix
+```
+
+Or if you use `mise`: `mise vscode-package` then install the `.vsix` from the `vscode-extension/` directory.
+
+The extension activates on Clojure files and runs `.typedclojure-lsp/start` from your workspace root. You can change the script path via the `typedclojure-lsp.startScript` setting.
+
 ## Project local start script
 
 Once your editor is configured to invoke this script, you can add different scripts to your project depending on your tooling choices or special requirements. You might have one per project that your team share or maybe keep them entirely private if you have differing OS needs. Maybe have a shared core script that invokes a sub-script that each of your team members can customise. The possibilities are endless and dictated by each of your projects.

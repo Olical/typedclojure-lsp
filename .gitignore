@@ -5,3 +5,5 @@
 target/
 .rebel_readline_history
 .nrepl-port
+vscode-extension/node_modules/
+vscode-extension/*.vsix

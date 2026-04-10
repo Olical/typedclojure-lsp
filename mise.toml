@@ -30,6 +30,11 @@ run = "clojure -T:build clean"
 [tasks.deploy]
 run = "clojure -T:build deploy"
 
+[tasks.vscode-package]
+description = "Package the VS Code extension as a .vsix"
+dir = "vscode-extension"
+run = "npx @vscode/vsce package --allow-missing-repository"
+
 [tasks.update-lsp-schema]
 description = "Fetch the latest LSP meta model from Microsoft"
 run = "curl -s https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/metaModel/metaModel.json > resources/typedclojure-lsp/lsp-meta-model.json"

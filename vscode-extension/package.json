@@ -1,0 +1,38 @@
+{
+  "name": "typedclojure-lsp",
+  "displayName": "Typed Clojure LSP",
+  "description": "Typed Clojure type checking in your editor via LSP",
+  "version": "0.0.1",
+  "license": "Unlicense",
+  "publisher": "olical",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Olical/typedclojure-lsp"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters"
+  ],
+  "activationEvents": [
+    "onLanguage:clojure"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Typed Clojure LSP",
+      "properties": {
+        "typedclojure-lsp.startScript": {
+          "type": "string",
+          "default": ".typedclojure-lsp/start",
+          "description": "Path to the start script relative to the workspace root"
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  }
+}
