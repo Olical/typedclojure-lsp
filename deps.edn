@@ -6,7 +6,9 @@
   org.typedclojure/typed.clj.runtime {:mvn/version "1.3.1-SNAPSHOT"}
   org.typedclojure/typed.clj.checker {:mvn/version "1.3.1-SNAPSHOT"}
   org.typedclojure/typed.lib.clojure {:mvn/version "1.3.1-SNAPSHOT"}
-  org.typedclojure/typed.malli {:mvn/version "1.3.1-SNAPSHOT"}}
+  org.typedclojure/typed.malli {:mvn/version "1.3.1-SNAPSHOT"}
+  luposlip/json-schema {:mvn/version "0.4.7"}
+  org.clojure/data.json {:mvn/version "2.5.1"}}
 
  :aliases
  {;; :typedclojure-lsp {:extra-paths ["dev"]
@@ -31,4 +33,7 @@
            :main-opts ["-m" "cljfmt.main" "fix"]}
   :build {:extra-deps {io.github.clojure/tools.build {:mvn/version "0.10.9"}
                        slipset/deps-deploy {:mvn/version "0.2.2"}}
-          :ns-default build}}}
+          :ns-default build}}
+
+ :mvn/repos
+ {"jitpack.io" {:url "https://jitpack.io"}}}

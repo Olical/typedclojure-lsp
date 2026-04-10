@@ -29,3 +29,12 @@ run = "clojure -T:build clean"
 
 [tasks.deploy]
 run = "clojure -T:build deploy"
+
+[tasks.update-lsp-schema]
+description = "Fetch the latest LSP meta model from Microsoft"
+run = "curl -s https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/metaModel/metaModel.json > resources/typedclojure-lsp/lsp-meta-model.json"
+
+[tasks.generate-lsp-json-schema]
+description = "Generate JSON Schema from LSP meta model"
+raw = true
+run = "clojure -M -m typedclojure-lsp.schema.convert"
