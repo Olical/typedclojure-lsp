@@ -5,11 +5,15 @@
 
 (t/ann cp/classpath [-> (t/Seqable java.io.File)])
 (t/ann classpath-dirs [-> (t/Seqable t/Str)])
-(defn classpath-dirs []
+(defn classpath-dirs
+  "Returns the canonical paths of all directories on the classpath as strings."
+  []
   (keep #(.getCanonicalPath ^java.io.File %) (cp/classpath)))
 
 (t/ann current-directory [-> t/Str])
-(defn current-directory []
+(defn current-directory
+  "Returns the canonical path of the current working directory as a string."
+  []
   (let [path (.getCanonicalPath (io/file "."))]
     (assert (string? path))
     path))

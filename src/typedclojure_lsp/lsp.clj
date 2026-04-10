@@ -44,7 +44,9 @@
              :message message}}
      "Incoming LSP message failed schema validation")))
 
-(defn loggable-context [context]
+(defn loggable-context
+  "Returns context with the :server value elided for safe logging."
+  [context]
   (assoc context :server ::elided))
 
 (defmethod server/receive-request "initialize"
@@ -68,7 +70,10 @@
   (validate-outgoing! ::publish-diagnostics-params params)
   (server/send-notification server "textDocument/publishDiagnostics" params))
 
-(defn type-check-and-notify! [{:keys [server files-with-diagnostics! root-uri!] :as _context}]
+(defn type-check-and-notify!
+  "Runs the type checker on classpath dirs under root-uri and publishes diagnostics to the client.
+  Clears previously reported diagnostics before sending new ones."
+  [{:keys [server files-with-diagnostics! root-uri!] :as _context}]
   (te/log! :info "Running type checker...")
   (let [;; We can't just give the project root, typedclojure doesn't seem to do anything then.
         ;; So instead we pass all the classpath dirs under the project root.
@@ -134,7 +139,10 @@
 
 ; (t/ann tcp/start-server [[manifold.stream.default.Stream map? :-> t/Nothing] :-> netty/AlephServer])
 ; (t/ann start-server! [:-> netty/AlephServer])
-(defn start-stdio-server! []
+(defn start-stdio-server!
+  "Creates and starts an LSP server communicating over stdio.
+  Returns a map with :server and :start! (a derefable that blocks until shutdown)."
+  []
   (let [server (io-server/stdio-server)
         context {:server server
                  :files-with-diagnostics! (atom #{})

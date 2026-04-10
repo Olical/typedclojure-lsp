@@ -26,5 +26,7 @@
   (shutdown-agents)
   (System/exit 0))
 
-(defn -main [& _args]
+(defn -main
+  "CLI entry point. Starts the LSP server over stdio."
+  [& _args]
   (start! {}))
