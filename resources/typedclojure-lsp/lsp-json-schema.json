@@ -1,0 +1,3475 @@
+{
+  "$schema": "http:\/\/json-schema.org\/draft-07\/schema#",
+  "definitions": {
+    "WorkspaceSymbolOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "resolveProvider": {
+              "type": "boolean"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "ReferenceOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "CallHierarchyOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "RenameOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "prepareProvider": {
+              "type": "boolean"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "SelectionRangeRegistrationOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/SelectionRangeOptions"
+        },
+        {
+          "$ref": "#\/definitions\/TextDocumentRegistrationOptions"
+        },
+        {
+          "$ref": "#\/definitions\/StaticRegistrationOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "DocumentHighlightOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "FailureHandlingKind": {
+      "type": "string",
+      "enum": [
+        "abort",
+        "transactional",
+        "textOnlyTransactional",
+        "undo"
+      ]
+    },
+    "TypeDefinitionOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "NotebookDocumentSyncOptions": {
+      "type": "object",
+      "properties": {
+        "notebookSelector": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "notebook": {
+                    "oneOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#\/definitions\/NotebookDocumentFilter"
+                      }
+                    ]
+                  },
+                  "cells": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "language": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "language"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "notebook"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "notebook": {
+                    "oneOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#\/definitions\/NotebookDocumentFilter"
+                      }
+                    ]
+                  },
+                  "cells": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "language": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "language"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "cells"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "save": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "notebookSelector"
+      ],
+      "additionalProperties": false
+    },
+    "CompletionOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "triggerCharacters": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "allCommitCharacters": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "resolveProvider": {
+              "type": "boolean"
+            },
+            "completionItem": {
+              "type": "object",
+              "properties": {
+                "labelDetailsSupport": {
+                  "type": "boolean"
+                }
+              },
+              "required": [],
+              "additionalProperties": false
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "ResourceOperationKind": {
+      "type": "string",
+      "enum": [
+        "create",
+        "rename",
+        "delete"
+      ]
+    },
+    "LinkedEditingRangeRegistrationOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/TextDocumentRegistrationOptions"
+        },
+        {
+          "$ref": "#\/definitions\/LinkedEditingRangeOptions"
+        },
+        {
+          "$ref": "#\/definitions\/StaticRegistrationOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "SaveOptions": {
+      "type": "object",
+      "properties": {
+        "includeText": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "StaticRegistrationOptions": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "InlineValueRegistrationOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/InlineValueOptions"
+        },
+        {
+          "$ref": "#\/definitions\/TextDocumentRegistrationOptions"
+        },
+        {
+          "$ref": "#\/definitions\/StaticRegistrationOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "PrepareSupportDefaultBehavior": {
+      "type": "integer",
+      "enum": [
+        1
+      ]
+    },
+    "DiagnosticOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "identifier": {
+              "type": "string"
+            },
+            "interFileDependencies": {
+              "type": "boolean"
+            },
+            "workspaceDiagnostics": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "interFileDependencies",
+            "workspaceDiagnostics"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "InlineCompletionClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "TypeDefinitionClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        },
+        "linkSupport": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "TokenFormat": {
+      "type": "string",
+      "enum": [
+        "relative"
+      ]
+    },
+    "DiagnosticWorkspaceClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "refreshSupport": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "SemanticTokensOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "legend": {
+              "$ref": "#\/definitions\/SemanticTokensLegend"
+            },
+            "range": {
+              "oneOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "object",
+                  "properties": {},
+                  "required": [],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "full": {
+              "oneOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "delta": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [],
+                  "additionalProperties": false
+                }
+              ]
+            }
+          },
+          "required": [
+            "legend"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "FoldingRangeClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        },
+        "rangeLimit": {
+          "type": "integer"
+        },
+        "lineFoldingOnly": {
+          "type": "boolean"
+        },
+        "foldingRangeKind": {
+          "type": "object",
+          "properties": {
+            "valueSet": {
+              "type": "array",
+              "items": {
+                "$ref": "#\/definitions\/FoldingRangeKind"
+              }
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        },
+        "foldingRange": {
+          "type": "object",
+          "properties": {
+            "collapsedText": {
+              "type": "boolean"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "TextDocumentFilter": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "language": {
+              "type": "string"
+            },
+            "scheme": {
+              "type": "string"
+            },
+            "pattern": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "language"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "language": {
+              "type": "string"
+            },
+            "scheme": {
+              "type": "string"
+            },
+            "pattern": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "scheme"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "language": {
+              "type": "string"
+            },
+            "scheme": {
+              "type": "string"
+            },
+            "pattern": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "pattern"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "CodeLensOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "resolveProvider": {
+              "type": "boolean"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "FoldingRangeRegistrationOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/TextDocumentRegistrationOptions"
+        },
+        {
+          "$ref": "#\/definitions\/FoldingRangeOptions"
+        },
+        {
+          "$ref": "#\/definitions\/StaticRegistrationOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "MonikerOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "TypeHierarchyRegistrationOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/TextDocumentRegistrationOptions"
+        },
+        {
+          "$ref": "#\/definitions\/TypeHierarchyOptions"
+        },
+        {
+          "$ref": "#\/definitions\/StaticRegistrationOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "PositionEncodingKind": {
+      "type": "string",
+      "enum": [
+        "utf-8",
+        "utf-16",
+        "utf-32"
+      ]
+    },
+    "FileOperationPatternOptions": {
+      "type": "object",
+      "properties": {
+        "ignoreCase": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "FileOperationPatternKind": {
+      "type": "string",
+      "enum": [
+        "file",
+        "folder"
+      ]
+    },
+    "WorkspaceClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "semanticTokens": {
+          "$ref": "#\/definitions\/SemanticTokensWorkspaceClientCapabilities"
+        },
+        "foldingRange": {
+          "$ref": "#\/definitions\/FoldingRangeWorkspaceClientCapabilities"
+        },
+        "fileOperations": {
+          "$ref": "#\/definitions\/FileOperationClientCapabilities"
+        },
+        "configuration": {
+          "type": "boolean"
+        },
+        "executeCommand": {
+          "$ref": "#\/definitions\/ExecuteCommandClientCapabilities"
+        },
+        "didChangeConfiguration": {
+          "$ref": "#\/definitions\/DidChangeConfigurationClientCapabilities"
+        },
+        "diagnostics": {
+          "$ref": "#\/definitions\/DiagnosticWorkspaceClientCapabilities"
+        },
+        "codeLens": {
+          "$ref": "#\/definitions\/CodeLensWorkspaceClientCapabilities"
+        },
+        "workspaceFolders": {
+          "type": "boolean"
+        },
+        "workspaceEdit": {
+          "$ref": "#\/definitions\/WorkspaceEditClientCapabilities"
+        },
+        "symbol": {
+          "$ref": "#\/definitions\/WorkspaceSymbolClientCapabilities"
+        },
+        "inlayHint": {
+          "$ref": "#\/definitions\/InlayHintWorkspaceClientCapabilities"
+        },
+        "applyEdit": {
+          "type": "boolean"
+        },
+        "didChangeWatchedFiles": {
+          "$ref": "#\/definitions\/DidChangeWatchedFilesClientCapabilities"
+        },
+        "inlineValue": {
+          "$ref": "#\/definitions\/InlineValueWorkspaceClientCapabilities"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "InlineValueOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "CompletionClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        },
+        "completionItem": {
+          "type": "object",
+          "properties": {
+            "labelDetailsSupport": {
+              "type": "boolean"
+            },
+            "insertReplaceSupport": {
+              "type": "boolean"
+            },
+            "commitCharactersSupport": {
+              "type": "boolean"
+            },
+            "deprecatedSupport": {
+              "type": "boolean"
+            },
+            "insertTextModeSupport": {
+              "type": "object",
+              "properties": {
+                "valueSet": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#\/definitions\/InsertTextMode"
+                  }
+                }
+              },
+              "required": [
+                "valueSet"
+              ],
+              "additionalProperties": false
+            },
+            "snippetSupport": {
+              "type": "boolean"
+            },
+            "documentationFormat": {
+              "type": "array",
+              "items": {
+                "$ref": "#\/definitions\/MarkupKind"
+              }
+            },
+            "preselectSupport": {
+              "type": "boolean"
+            },
+            "tagSupport": {
+              "type": "object",
+              "properties": {
+                "valueSet": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#\/definitions\/CompletionItemTag"
+                  }
+                }
+              },
+              "required": [
+                "valueSet"
+              ],
+              "additionalProperties": false
+            },
+            "resolveSupport": {
+              "type": "object",
+              "properties": {
+                "properties": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "properties"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        },
+        "completionItemKind": {
+          "type": "object",
+          "properties": {
+            "valueSet": {
+              "type": "array",
+              "items": {
+                "$ref": "#\/definitions\/CompletionItemKind"
+              }
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        },
+        "insertTextMode": {
+          "$ref": "#\/definitions\/InsertTextMode"
+        },
+        "contextSupport": {
+          "type": "boolean"
+        },
+        "completionList": {
+          "type": "object",
+          "properties": {
+            "itemDefaults": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "DocumentFormattingClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "FoldingRangeKind": {
+      "type": "string",
+      "enum": [
+        "comment",
+        "imports",
+        "region"
+      ]
+    },
+    "ServerCapabilities": {
+      "type": "object",
+      "properties": {
+        "documentSymbolProvider": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#\/definitions\/DocumentSymbolOptions"
+            }
+          ]
+        },
+        "textDocumentSync": {
+          "oneOf": [
+            {
+              "$ref": "#\/definitions\/TextDocumentSyncOptions"
+            },
+            {
+              "$ref": "#\/definitions\/TextDocumentSyncKind"
+            }
+          ]
+        },
+        "declarationProvider": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#\/definitions\/DeclarationOptions"
+            },
+            {
+              "$ref": "#\/definitions\/DeclarationRegistrationOptions"
+            }
+          ]
+        },
+        "semanticTokensProvider": {
+          "oneOf": [
+            {
+              "$ref": "#\/definitions\/SemanticTokensOptions"
+            },
+            {
+              "$ref": "#\/definitions\/SemanticTokensRegistrationOptions"
+            }
+          ]
+        },
+        "colorProvider": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#\/definitions\/DocumentColorOptions"
+            },
+            {
+              "$ref": "#\/definitions\/DocumentColorRegistrationOptions"
+            }
+          ]
+        },
+        "linkedEditingRangeProvider": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#\/definitions\/LinkedEditingRangeOptions"
+            },
+            {
+              "$ref": "#\/definitions\/LinkedEditingRangeRegistrationOptions"
+            }
+          ]
+        },
+        "workspaceSymbolProvider": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#\/definitions\/WorkspaceSymbolOptions"
+            }
+          ]
+        },
+        "experimental": {
+          "$ref": "#\/definitions\/LSPAny"
+        },
+        "codeActionProvider": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#\/definitions\/CodeActionOptions"
+            }
+          ]
+        },
+        "positionEncoding": {
+          "$ref": "#\/definitions\/PositionEncodingKind"
+        },
+        "documentLinkProvider": {
+          "$ref": "#\/definitions\/DocumentLinkOptions"
+        },
+        "documentHighlightProvider": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#\/definitions\/DocumentHighlightOptions"
+            }
+          ]
+        },
+        "inlineCompletionProvider": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#\/definitions\/InlineCompletionOptions"
+            }
+          ]
+        },
+        "inlayHintProvider": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#\/definitions\/InlayHintOptions"
+            },
+            {
+              "$ref": "#\/definitions\/InlayHintRegistrationOptions"
+            }
+          ]
+        },
+        "typeDefinitionProvider": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#\/definitions\/TypeDefinitionOptions"
+            },
+            {
+              "$ref": "#\/definitions\/TypeDefinitionRegistrationOptions"
+            }
+          ]
+        },
+        "typeHierarchyProvider": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#\/definitions\/TypeHierarchyOptions"
+            },
+            {
+              "$ref": "#\/definitions\/TypeHierarchyRegistrationOptions"
+            }
+          ]
+        },
+        "completionProvider": {
+          "$ref": "#\/definitions\/CompletionOptions"
+        },
+        "workspace": {
+          "type": "object",
+          "properties": {
+            "workspaceFolders": {
+              "$ref": "#\/definitions\/WorkspaceFoldersServerCapabilities"
+            },
+            "fileOperations": {
+              "$ref": "#\/definitions\/FileOperationOptions"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        },
+        "documentOnTypeFormattingProvider": {
+          "$ref": "#\/definitions\/DocumentOnTypeFormattingOptions"
+        },
+        "notebookDocumentSync": {
+          "oneOf": [
+            {
+              "$ref": "#\/definitions\/NotebookDocumentSyncOptions"
+            },
+            {
+              "$ref": "#\/definitions\/NotebookDocumentSyncRegistrationOptions"
+            }
+          ]
+        },
+        "implementationProvider": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#\/definitions\/ImplementationOptions"
+            },
+            {
+              "$ref": "#\/definitions\/ImplementationRegistrationOptions"
+            }
+          ]
+        },
+        "signatureHelpProvider": {
+          "$ref": "#\/definitions\/SignatureHelpOptions"
+        },
+        "documentRangeFormattingProvider": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#\/definitions\/DocumentRangeFormattingOptions"
+            }
+          ]
+        },
+        "executeCommandProvider": {
+          "$ref": "#\/definitions\/ExecuteCommandOptions"
+        },
+        "inlineValueProvider": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#\/definitions\/InlineValueOptions"
+            },
+            {
+              "$ref": "#\/definitions\/InlineValueRegistrationOptions"
+            }
+          ]
+        },
+        "referencesProvider": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#\/definitions\/ReferenceOptions"
+            }
+          ]
+        },
+        "codeLensProvider": {
+          "$ref": "#\/definitions\/CodeLensOptions"
+        },
+        "foldingRangeProvider": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#\/definitions\/FoldingRangeOptions"
+            },
+            {
+              "$ref": "#\/definitions\/FoldingRangeRegistrationOptions"
+            }
+          ]
+        },
+        "callHierarchyProvider": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#\/definitions\/CallHierarchyOptions"
+            },
+            {
+              "$ref": "#\/definitions\/CallHierarchyRegistrationOptions"
+            }
+          ]
+        },
+        "diagnosticProvider": {
+          "oneOf": [
+            {
+              "$ref": "#\/definitions\/DiagnosticOptions"
+            },
+            {
+              "$ref": "#\/definitions\/DiagnosticRegistrationOptions"
+            }
+          ]
+        },
+        "documentFormattingProvider": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#\/definitions\/DocumentFormattingOptions"
+            }
+          ]
+        },
+        "renameProvider": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#\/definitions\/RenameOptions"
+            }
+          ]
+        },
+        "definitionProvider": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#\/definitions\/DefinitionOptions"
+            }
+          ]
+        },
+        "selectionRangeProvider": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#\/definitions\/SelectionRangeOptions"
+            },
+            {
+              "$ref": "#\/definitions\/SelectionRangeRegistrationOptions"
+            }
+          ]
+        },
+        "hoverProvider": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#\/definitions\/HoverOptions"
+            }
+          ]
+        },
+        "monikerProvider": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#\/definitions\/MonikerOptions"
+            },
+            {
+              "$ref": "#\/definitions\/MonikerRegistrationOptions"
+            }
+          ]
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "CompletionItemKind": {
+      "type": "integer",
+      "enum": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ]
+    },
+    "DidChangeWatchedFilesClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        },
+        "relativePatternSupport": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "CodeActionKind": {
+      "type": "string",
+      "enum": [
+        "",
+        "quickfix",
+        "refactor",
+        "refactor.extract",
+        "refactor.inline",
+        "refactor.rewrite",
+        "source",
+        "source.organizeImports",
+        "source.fixAll"
+      ]
+    },
+    "Location": {
+      "type": "object",
+      "properties": {
+        "uri": {
+          "type": "string"
+        },
+        "range": {
+          "$ref": "#\/definitions\/Range"
+        }
+      },
+      "required": [
+        "uri",
+        "range"
+      ],
+      "additionalProperties": false
+    },
+    "TypeHierarchyOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "DefinitionClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        },
+        "linkSupport": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "SemanticTokensLegend": {
+      "type": "object",
+      "properties": {
+        "tokenTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tokenModifiers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "tokenTypes",
+        "tokenModifiers"
+      ],
+      "additionalProperties": false
+    },
+    "LSPAny": {
+      "oneOf": [
+        {
+          "$ref": "#\/definitions\/LSPObject"
+        },
+        {
+          "$ref": "#\/definitions\/LSPArray"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "integer"
+        },
+        {
+          "type": "integer"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "ShowMessageRequestClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "messageActionItem": {
+          "type": "object",
+          "properties": {
+            "additionalPropertiesSupport": {
+              "type": "boolean"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "SelectionRangeOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "InlayHintClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        },
+        "resolveSupport": {
+          "type": "object",
+          "properties": {
+            "properties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "properties"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "WorkspaceFolder": {
+      "type": "object",
+      "properties": {
+        "uri": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "FileOperationClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        },
+        "didCreate": {
+          "type": "boolean"
+        },
+        "willCreate": {
+          "type": "boolean"
+        },
+        "didRename": {
+          "type": "boolean"
+        },
+        "willRename": {
+          "type": "boolean"
+        },
+        "didDelete": {
+          "type": "boolean"
+        },
+        "willDelete": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "Diagnostic": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "range": {
+          "$ref": "#\/definitions\/Range"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#\/definitions\/DiagnosticTag"
+          }
+        },
+        "codeDescription": {
+          "$ref": "#\/definitions\/CodeDescription"
+        },
+        "source": {
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#\/definitions\/DiagnosticSeverity"
+        },
+        "data": {
+          "$ref": "#\/definitions\/LSPAny"
+        },
+        "code": {
+          "oneOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "relatedInformation": {
+          "type": "array",
+          "items": {
+            "$ref": "#\/definitions\/DiagnosticRelatedInformation"
+          }
+        }
+      },
+      "required": [
+        "range",
+        "message"
+      ],
+      "additionalProperties": false
+    },
+    "CodeLensWorkspaceClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "refreshSupport": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "ShowDocumentClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "support": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "support"
+      ],
+      "additionalProperties": false
+    },
+    "InsertTextMode": {
+      "type": "integer",
+      "enum": [
+        1,
+        2
+      ]
+    },
+    "DeclarationClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        },
+        "linkSupport": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "TextDocumentItem": {
+      "type": "object",
+      "properties": {
+        "uri": {
+          "type": "string"
+        },
+        "languageId": {
+          "type": "string"
+        },
+        "version": {
+          "type": "integer"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "languageId",
+        "version",
+        "text"
+      ],
+      "additionalProperties": false
+    },
+    "TraceValues": {
+      "type": "string",
+      "enum": [
+        "off",
+        "messages",
+        "verbose"
+      ]
+    },
+    "ExecuteCommandOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "commands": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "commands"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "CallHierarchyClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "InlineValueWorkspaceClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "refreshSupport": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "LinkedEditingRangeClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "CompletionItemTag": {
+      "type": "integer",
+      "enum": [
+        1
+      ]
+    },
+    "Range": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "$ref": "#\/definitions\/Position"
+        },
+        "end": {
+          "$ref": "#\/definitions\/Position"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "additionalProperties": false
+    },
+    "DocumentRangeFormattingOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "rangesSupport": {
+              "type": "boolean"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "DocumentColorClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "TextDocumentSyncOptions": {
+      "type": "object",
+      "properties": {
+        "openClose": {
+          "type": "boolean"
+        },
+        "change": {
+          "$ref": "#\/definitions\/TextDocumentSyncKind"
+        },
+        "willSave": {
+          "type": "boolean"
+        },
+        "willSaveWaitUntil": {
+          "type": "boolean"
+        },
+        "save": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#\/definitions\/SaveOptions"
+            }
+          ]
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "FileOperationPattern": {
+      "type": "object",
+      "properties": {
+        "glob": {
+          "type": "string"
+        },
+        "matches": {
+          "$ref": "#\/definitions\/FileOperationPatternKind"
+        },
+        "options": {
+          "$ref": "#\/definitions\/FileOperationPatternOptions"
+        }
+      },
+      "required": [
+        "glob"
+      ],
+      "additionalProperties": false
+    },
+    "RegularExpressionsClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "engine": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "engine"
+      ],
+      "additionalProperties": false
+    },
+    "DocumentSymbolClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        },
+        "symbolKind": {
+          "type": "object",
+          "properties": {
+            "valueSet": {
+              "type": "array",
+              "items": {
+                "$ref": "#\/definitions\/SymbolKind"
+              }
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        },
+        "hierarchicalDocumentSymbolSupport": {
+          "type": "boolean"
+        },
+        "tagSupport": {
+          "type": "object",
+          "properties": {
+            "valueSet": {
+              "type": "array",
+              "items": {
+                "$ref": "#\/definitions\/SymbolTag"
+              }
+            }
+          },
+          "required": [
+            "valueSet"
+          ],
+          "additionalProperties": false
+        },
+        "labelSupport": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "WindowClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "workDoneProgress": {
+          "type": "boolean"
+        },
+        "showMessage": {
+          "$ref": "#\/definitions\/ShowMessageRequestClientCapabilities"
+        },
+        "showDocument": {
+          "$ref": "#\/definitions\/ShowDocumentClientCapabilities"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "SelectionRangeClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "DocumentRangeFormattingClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        },
+        "rangesSupport": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "LSPObject": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#\/definitions\/LSPAny"
+      }
+    },
+    "DocumentFormattingOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "PublishDiagnosticsClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "relatedInformation": {
+          "type": "boolean"
+        },
+        "tagSupport": {
+          "type": "object",
+          "properties": {
+            "valueSet": {
+              "type": "array",
+              "items": {
+                "$ref": "#\/definitions\/DiagnosticTag"
+              }
+            }
+          },
+          "required": [
+            "valueSet"
+          ],
+          "additionalProperties": false
+        },
+        "versionSupport": {
+          "type": "boolean"
+        },
+        "codeDescriptionSupport": {
+          "type": "boolean"
+        },
+        "dataSupport": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "InlayHintWorkspaceClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "refreshSupport": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "DocumentLinkOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "resolveProvider": {
+              "type": "boolean"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "DocumentColorRegistrationOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/TextDocumentRegistrationOptions"
+        },
+        {
+          "$ref": "#\/definitions\/DocumentColorOptions"
+        },
+        {
+          "$ref": "#\/definitions\/StaticRegistrationOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "MonikerClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "DocumentHighlightClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "WorkDoneProgressParams": {
+      "type": "object",
+      "properties": {
+        "workDoneToken": {
+          "$ref": "#\/definitions\/ProgressToken"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "DefinitionOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "CodeActionClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        },
+        "codeActionLiteralSupport": {
+          "type": "object",
+          "properties": {
+            "codeActionKind": {
+              "type": "object",
+              "properties": {
+                "valueSet": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#\/definitions\/CodeActionKind"
+                  }
+                }
+              },
+              "required": [
+                "valueSet"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "codeActionKind"
+          ],
+          "additionalProperties": false
+        },
+        "isPreferredSupport": {
+          "type": "boolean"
+        },
+        "disabledSupport": {
+          "type": "boolean"
+        },
+        "dataSupport": {
+          "type": "boolean"
+        },
+        "resolveSupport": {
+          "type": "object",
+          "properties": {
+            "properties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "properties"
+          ],
+          "additionalProperties": false
+        },
+        "honorsChangeAnnotations": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "DocumentOnTypeFormattingOptions": {
+      "type": "object",
+      "properties": {
+        "firstTriggerCharacter": {
+          "type": "string"
+        },
+        "moreTriggerCharacter": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "firstTriggerCharacter"
+      ],
+      "additionalProperties": false
+    },
+    "SemanticTokensWorkspaceClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "refreshSupport": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "FileOperationFilter": {
+      "type": "object",
+      "properties": {
+        "scheme": {
+          "type": "string"
+        },
+        "pattern": {
+          "$ref": "#\/definitions\/FileOperationPattern"
+        }
+      },
+      "required": [
+        "pattern"
+      ],
+      "additionalProperties": false
+    },
+    "InlayHintRegistrationOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/InlayHintOptions"
+        },
+        {
+          "$ref": "#\/definitions\/TextDocumentRegistrationOptions"
+        },
+        {
+          "$ref": "#\/definitions\/StaticRegistrationOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "InitializeParams": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/_InitializeParams"
+        },
+        {
+          "$ref": "#\/definitions\/WorkspaceFoldersInitializeParams"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "NotebookDocumentSyncRegistrationOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/NotebookDocumentSyncOptions"
+        },
+        {
+          "$ref": "#\/definitions\/StaticRegistrationOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "FileOperationRegistrationOptions": {
+      "type": "object",
+      "properties": {
+        "filters": {
+          "type": "array",
+          "items": {
+            "$ref": "#\/definitions\/FileOperationFilter"
+          }
+        }
+      },
+      "required": [
+        "filters"
+      ],
+      "additionalProperties": false
+    },
+    "InlayHintOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "resolveProvider": {
+              "type": "boolean"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "HoverClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        },
+        "contentFormat": {
+          "type": "array",
+          "items": {
+            "$ref": "#\/definitions\/MarkupKind"
+          }
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "RenameClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        },
+        "prepareSupport": {
+          "type": "boolean"
+        },
+        "prepareSupportDefaultBehavior": {
+          "$ref": "#\/definitions\/PrepareSupportDefaultBehavior"
+        },
+        "honorsChangeAnnotations": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "ImplementationClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        },
+        "linkSupport": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "GeneralClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "staleRequestSupport": {
+          "type": "object",
+          "properties": {
+            "cancel": {
+              "type": "boolean"
+            },
+            "retryOnContentModified": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "cancel",
+            "retryOnContentModified"
+          ],
+          "additionalProperties": false
+        },
+        "regularExpressions": {
+          "$ref": "#\/definitions\/RegularExpressionsClientCapabilities"
+        },
+        "markdown": {
+          "$ref": "#\/definitions\/MarkdownClientCapabilities"
+        },
+        "positionEncodings": {
+          "type": "array",
+          "items": {
+            "$ref": "#\/definitions\/PositionEncodingKind"
+          }
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "MarkupKind": {
+      "type": "string",
+      "enum": [
+        "plaintext",
+        "markdown"
+      ]
+    },
+    "Position": {
+      "type": "object",
+      "properties": {
+        "line": {
+          "type": "integer"
+        },
+        "character": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "line",
+        "character"
+      ],
+      "additionalProperties": false
+    },
+    "DiagnosticClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        },
+        "relatedDocumentSupport": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "InlineCompletionOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "TextDocumentSyncKind": {
+      "type": "integer",
+      "enum": [
+        0,
+        1,
+        2
+      ]
+    },
+    "DocumentLinkClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        },
+        "tooltipSupport": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "DiagnosticSeverity": {
+      "type": "integer",
+      "enum": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "SymbolTag": {
+      "type": "integer",
+      "enum": [
+        1
+      ]
+    },
+    "SignatureHelpClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        },
+        "signatureInformation": {
+          "type": "object",
+          "properties": {
+            "documentationFormat": {
+              "type": "array",
+              "items": {
+                "$ref": "#\/definitions\/MarkupKind"
+              }
+            },
+            "parameterInformation": {
+              "type": "object",
+              "properties": {
+                "labelOffsetSupport": {
+                  "type": "boolean"
+                }
+              },
+              "required": [],
+              "additionalProperties": false
+            },
+            "activeParameterSupport": {
+              "type": "boolean"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        },
+        "contextSupport": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "TypeDefinitionRegistrationOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/TextDocumentRegistrationOptions"
+        },
+        {
+          "$ref": "#\/definitions\/TypeDefinitionOptions"
+        },
+        {
+          "$ref": "#\/definitions\/StaticRegistrationOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "SymbolKind": {
+      "type": "integer",
+      "enum": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ]
+    },
+    "ReferenceClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "InlineValueClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "DocumentSelector": {
+      "type": "array",
+      "items": {
+        "$ref": "#\/definitions\/DocumentFilter"
+      }
+    },
+    "LinkedEditingRangeOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "NotebookDocumentClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "synchronization": {
+          "$ref": "#\/definitions\/NotebookDocumentSyncClientCapabilities"
+        }
+      },
+      "required": [
+        "synchronization"
+      ],
+      "additionalProperties": false
+    },
+    "DiagnosticRelatedInformation": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "$ref": "#\/definitions\/Location"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "location",
+        "message"
+      ],
+      "additionalProperties": false
+    },
+    "SignatureHelpOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "triggerCharacters": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "retriggerCharacters": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "SemanticTokensRegistrationOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/TextDocumentRegistrationOptions"
+        },
+        {
+          "$ref": "#\/definitions\/SemanticTokensOptions"
+        },
+        {
+          "$ref": "#\/definitions\/StaticRegistrationOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "DeclarationRegistrationOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/DeclarationOptions"
+        },
+        {
+          "$ref": "#\/definitions\/TextDocumentRegistrationOptions"
+        },
+        {
+          "$ref": "#\/definitions\/StaticRegistrationOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "DidOpenTextDocumentParams": {
+      "type": "object",
+      "properties": {
+        "textDocument": {
+          "$ref": "#\/definitions\/TextDocumentItem"
+        }
+      },
+      "required": [
+        "textDocument"
+      ],
+      "additionalProperties": false
+    },
+    "NotebookDocumentSyncClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        },
+        "executionSummarySupport": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "FoldingRangeWorkspaceClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "refreshSupport": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "ExecuteCommandClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "TextDocumentSyncClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        },
+        "willSave": {
+          "type": "boolean"
+        },
+        "willSaveWaitUntil": {
+          "type": "boolean"
+        },
+        "didSave": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "DocumentColorOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "LSPArray": {
+      "type": "array",
+      "items": {
+        "$ref": "#\/definitions\/LSPAny"
+      }
+    },
+    "SemanticTokensClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "augmentsSyntaxTokens": {
+          "type": "boolean"
+        },
+        "serverCancelSupport": {
+          "type": "boolean"
+        },
+        "multilineTokenSupport": {
+          "type": "boolean"
+        },
+        "dynamicRegistration": {
+          "type": "boolean"
+        },
+        "tokenModifiers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "overlappingTokenSupport": {
+          "type": "boolean"
+        },
+        "formats": {
+          "type": "array",
+          "items": {
+            "$ref": "#\/definitions\/TokenFormat"
+          }
+        },
+        "tokenTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "requests": {
+          "type": "object",
+          "properties": {
+            "range": {
+              "oneOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "object",
+                  "properties": {},
+                  "required": [],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "full": {
+              "oneOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "delta": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [],
+                  "additionalProperties": false
+                }
+              ]
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "requests",
+        "tokenTypes",
+        "tokenModifiers",
+        "formats"
+      ],
+      "additionalProperties": false
+    },
+    "NotebookDocumentFilter": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "notebookType": {
+              "type": "string"
+            },
+            "scheme": {
+              "type": "string"
+            },
+            "pattern": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "notebookType"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "notebookType": {
+              "type": "string"
+            },
+            "scheme": {
+              "type": "string"
+            },
+            "pattern": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "scheme"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "notebookType": {
+              "type": "string"
+            },
+            "scheme": {
+              "type": "string"
+            },
+            "pattern": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "pattern"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "FoldingRangeOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "CodeActionOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "codeActionKinds": {
+              "type": "array",
+              "items": {
+                "$ref": "#\/definitions\/CodeActionKind"
+              }
+            },
+            "resolveProvider": {
+              "type": "boolean"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "ImplementationRegistrationOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/TextDocumentRegistrationOptions"
+        },
+        {
+          "$ref": "#\/definitions\/ImplementationOptions"
+        },
+        {
+          "$ref": "#\/definitions\/StaticRegistrationOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "CodeLensClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "NotebookCellTextDocumentFilter": {
+      "type": "object",
+      "properties": {
+        "notebook": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#\/definitions\/NotebookDocumentFilter"
+            }
+          ]
+        },
+        "language": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "notebook"
+      ],
+      "additionalProperties": false
+    },
+    "WorkspaceFoldersServerCapabilities": {
+      "type": "object",
+      "properties": {
+        "supported": {
+          "type": "boolean"
+        },
+        "changeNotifications": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "FileOperationOptions": {
+      "type": "object",
+      "properties": {
+        "didCreate": {
+          "$ref": "#\/definitions\/FileOperationRegistrationOptions"
+        },
+        "willCreate": {
+          "$ref": "#\/definitions\/FileOperationRegistrationOptions"
+        },
+        "didRename": {
+          "$ref": "#\/definitions\/FileOperationRegistrationOptions"
+        },
+        "willRename": {
+          "$ref": "#\/definitions\/FileOperationRegistrationOptions"
+        },
+        "didDelete": {
+          "$ref": "#\/definitions\/FileOperationRegistrationOptions"
+        },
+        "willDelete": {
+          "$ref": "#\/definitions\/FileOperationRegistrationOptions"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "WorkspaceSymbolClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        },
+        "symbolKind": {
+          "type": "object",
+          "properties": {
+            "valueSet": {
+              "type": "array",
+              "items": {
+                "$ref": "#\/definitions\/SymbolKind"
+              }
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        },
+        "tagSupport": {
+          "type": "object",
+          "properties": {
+            "valueSet": {
+              "type": "array",
+              "items": {
+                "$ref": "#\/definitions\/SymbolTag"
+              }
+            }
+          },
+          "required": [
+            "valueSet"
+          ],
+          "additionalProperties": false
+        },
+        "resolveSupport": {
+          "type": "object",
+          "properties": {
+            "properties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "properties"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "DeclarationOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "PublishDiagnosticsParams": {
+      "type": "object",
+      "properties": {
+        "uri": {
+          "type": "string"
+        },
+        "version": {
+          "type": "integer"
+        },
+        "diagnostics": {
+          "type": "array",
+          "items": {
+            "$ref": "#\/definitions\/Diagnostic"
+          }
+        }
+      },
+      "required": [
+        "uri",
+        "diagnostics"
+      ],
+      "additionalProperties": false
+    },
+    "ImplementationOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "DocumentOnTypeFormattingClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "CallHierarchyRegistrationOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/TextDocumentRegistrationOptions"
+        },
+        {
+          "$ref": "#\/definitions\/CallHierarchyOptions"
+        },
+        {
+          "$ref": "#\/definitions\/StaticRegistrationOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "DocumentFilter": {
+      "oneOf": [
+        {
+          "$ref": "#\/definitions\/TextDocumentFilter"
+        },
+        {
+          "$ref": "#\/definitions\/NotebookCellTextDocumentFilter"
+        }
+      ]
+    },
+    "TextDocumentIdentifier": {
+      "type": "object",
+      "properties": {
+        "uri": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri"
+      ],
+      "additionalProperties": false
+    },
+    "TypeHierarchyClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "MonikerRegistrationOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/TextDocumentRegistrationOptions"
+        },
+        {
+          "$ref": "#\/definitions\/MonikerOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "DidSaveTextDocumentParams": {
+      "type": "object",
+      "properties": {
+        "textDocument": {
+          "$ref": "#\/definitions\/TextDocumentIdentifier"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "textDocument"
+      ],
+      "additionalProperties": false
+    },
+    "InitializeResult": {
+      "type": "object",
+      "properties": {
+        "capabilities": {
+          "$ref": "#\/definitions\/ServerCapabilities"
+        },
+        "serverInfo": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "capabilities"
+      ],
+      "additionalProperties": false
+    },
+    "WorkDoneProgressOptions": {
+      "type": "object",
+      "properties": {
+        "workDoneProgress": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "DidChangeConfigurationClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "dynamicRegistration": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "_InitializeParams": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressParams"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "processId": {
+              "oneOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "clientInfo": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "version": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "additionalProperties": false
+            },
+            "locale": {
+              "type": "string"
+            },
+            "rootPath": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "rootUri": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "capabilities": {
+              "$ref": "#\/definitions\/ClientCapabilities"
+            },
+            "initializationOptions": {
+              "$ref": "#\/definitions\/LSPAny"
+            },
+            "trace": {
+              "$ref": "#\/definitions\/TraceValues"
+            }
+          },
+          "required": [
+            "processId",
+            "rootUri",
+            "capabilities"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "CodeDescription": {
+      "type": "object",
+      "properties": {
+        "href": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "href"
+      ],
+      "additionalProperties": false
+    },
+    "DocumentSymbolOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "DiagnosticTag": {
+      "type": "integer",
+      "enum": [
+        1,
+        2
+      ]
+    },
+    "HoverOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/WorkDoneProgressOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "WorkspaceEditClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "documentChanges": {
+          "type": "boolean"
+        },
+        "resourceOperations": {
+          "type": "array",
+          "items": {
+            "$ref": "#\/definitions\/ResourceOperationKind"
+          }
+        },
+        "failureHandling": {
+          "$ref": "#\/definitions\/FailureHandlingKind"
+        },
+        "normalizesLineEndings": {
+          "type": "boolean"
+        },
+        "changeAnnotationSupport": {
+          "type": "object",
+          "properties": {
+            "groupsOnLabel": {
+              "type": "boolean"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "DiagnosticRegistrationOptions": {
+      "allOf": [
+        {
+          "$ref": "#\/definitions\/TextDocumentRegistrationOptions"
+        },
+        {
+          "$ref": "#\/definitions\/DiagnosticOptions"
+        },
+        {
+          "$ref": "#\/definitions\/StaticRegistrationOptions"
+        },
+        {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "TextDocumentClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "onTypeFormatting": {
+          "$ref": "#\/definitions\/DocumentOnTypeFormattingClientCapabilities"
+        },
+        "inlineCompletion": {
+          "$ref": "#\/definitions\/InlineCompletionClientCapabilities"
+        },
+        "rename": {
+          "$ref": "#\/definitions\/RenameClientCapabilities"
+        },
+        "colorProvider": {
+          "$ref": "#\/definitions\/DocumentColorClientCapabilities"
+        },
+        "documentLink": {
+          "$ref": "#\/definitions\/DocumentLinkClientCapabilities"
+        },
+        "diagnostic": {
+          "$ref": "#\/definitions\/DiagnosticClientCapabilities"
+        },
+        "references": {
+          "$ref": "#\/definitions\/ReferenceClientCapabilities"
+        },
+        "semanticTokens": {
+          "$ref": "#\/definitions\/SemanticTokensClientCapabilities"
+        },
+        "documentSymbol": {
+          "$ref": "#\/definitions\/DocumentSymbolClientCapabilities"
+        },
+        "moniker": {
+          "$ref": "#\/definitions\/MonikerClientCapabilities"
+        },
+        "foldingRange": {
+          "$ref": "#\/definitions\/FoldingRangeClientCapabilities"
+        },
+        "publishDiagnostics": {
+          "$ref": "#\/definitions\/PublishDiagnosticsClientCapabilities"
+        },
+        "formatting": {
+          "$ref": "#\/definitions\/DocumentFormattingClientCapabilities"
+        },
+        "documentHighlight": {
+          "$ref": "#\/definitions\/DocumentHighlightClientCapabilities"
+        },
+        "codeAction": {
+          "$ref": "#\/definitions\/CodeActionClientCapabilities"
+        },
+        "synchronization": {
+          "$ref": "#\/definitions\/TextDocumentSyncClientCapabilities"
+        },
+        "typeDefinition": {
+          "$ref": "#\/definitions\/TypeDefinitionClientCapabilities"
+        },
+        "implementation": {
+          "$ref": "#\/definitions\/ImplementationClientCapabilities"
+        },
+        "codeLens": {
+          "$ref": "#\/definitions\/CodeLensClientCapabilities"
+        },
+        "callHierarchy": {
+          "$ref": "#\/definitions\/CallHierarchyClientCapabilities"
+        },
+        "signatureHelp": {
+          "$ref": "#\/definitions\/SignatureHelpClientCapabilities"
+        },
+        "definition": {
+          "$ref": "#\/definitions\/DefinitionClientCapabilities"
+        },
+        "inlayHint": {
+          "$ref": "#\/definitions\/InlayHintClientCapabilities"
+        },
+        "rangeFormatting": {
+          "$ref": "#\/definitions\/DocumentRangeFormattingClientCapabilities"
+        },
+        "declaration": {
+          "$ref": "#\/definitions\/DeclarationClientCapabilities"
+        },
+        "linkedEditingRange": {
+          "$ref": "#\/definitions\/LinkedEditingRangeClientCapabilities"
+        },
+        "completion": {
+          "$ref": "#\/definitions\/CompletionClientCapabilities"
+        },
+        "typeHierarchy": {
+          "$ref": "#\/definitions\/TypeHierarchyClientCapabilities"
+        },
+        "hover": {
+          "$ref": "#\/definitions\/HoverClientCapabilities"
+        },
+        "inlineValue": {
+          "$ref": "#\/definitions\/InlineValueClientCapabilities"
+        },
+        "selectionRange": {
+          "$ref": "#\/definitions\/SelectionRangeClientCapabilities"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "ProgressToken": {
+      "oneOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "WorkspaceFoldersInitializeParams": {
+      "type": "object",
+      "properties": {
+        "workspaceFolders": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#\/definitions\/WorkspaceFolder"
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "ClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "workspace": {
+          "$ref": "#\/definitions\/WorkspaceClientCapabilities"
+        },
+        "textDocument": {
+          "$ref": "#\/definitions\/TextDocumentClientCapabilities"
+        },
+        "notebookDocument": {
+          "$ref": "#\/definitions\/NotebookDocumentClientCapabilities"
+        },
+        "window": {
+          "$ref": "#\/definitions\/WindowClientCapabilities"
+        },
+        "general": {
+          "$ref": "#\/definitions\/GeneralClientCapabilities"
+        },
+        "experimental": {
+          "$ref": "#\/definitions\/LSPAny"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "MarkdownClientCapabilities": {
+      "type": "object",
+      "properties": {
+        "parser": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "allowedTags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "parser"
+      ],
+      "additionalProperties": false
+    },
+    "TextDocumentRegistrationOptions": {
+      "type": "object",
+      "properties": {
+        "documentSelector": {
+          "oneOf": [
+            {
+              "$ref": "#\/definitions\/DocumentSelector"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "documentSelector"
+      ],
+      "additionalProperties": false
+    }
+  }
+}
