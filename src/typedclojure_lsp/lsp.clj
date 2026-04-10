@@ -5,10 +5,44 @@
             [lsp4clj.io-server :as io-server]
             [taoensso.telemere :as te]
             [typedclojure-lsp.path :as path]
-            [typedclojure-lsp.runner :as runner]))
+            [typedclojure-lsp.runner :as runner]
+            [typedclojure-lsp.schema :as schema]))
 
 ;; TODO Hook the server up to a channel pair for testing.
 ;; TODO Type check this namespace. Dog food is delicious!
+
+(schema/define! ::initialize-result
+  (schema/lsp-json-schema->malli :InitializeResult))
+
+(schema/define! ::publish-diagnostics-params
+  (schema/lsp-json-schema->malli :PublishDiagnosticsParams))
+
+(schema/define! ::initialize-params
+  (schema/lsp-json-schema->malli :InitializeParams))
+
+(defn- validate-outgoing!
+  "Validate an outgoing LSP message against its schema.
+  Logs a warning if validation fails but does not throw."
+  [schema-id message]
+  (when-let [error (schema/validate schema-id message)]
+    (te/log!
+     {:level :warn
+      :data {:schema-id schema-id
+             :error error
+             :message message}}
+     "Outgoing LSP message failed schema validation")))
+
+(defn- validate-incoming!
+  "Validate an incoming LSP message against its schema.
+  Logs a warning if validation fails but does not throw."
+  [schema-id message]
+  (when-let [error (schema/validate schema-id message)]
+    (te/log!
+     {:level :warn
+      :data {:schema-id schema-id
+             :error error
+             :message message}}
+     "Incoming LSP message failed schema validation")))
 
 (defn loggable-context [context]
   (assoc context :server ::elided))
@@ -20,10 +54,19 @@
     :data {:context (loggable-context context)
            :params params}}
    "initialize")
+  (validate-incoming! ::initialize-params params)
   (reset! (:root-uri! context) (:root-path params))
-  {:capabilities {:textDocumentSync {:openClose true
-                                     :save {:includeText false}}}
-   :serverInfo {:name "typedclojure"}})
+  (let [result {:capabilities {:textDocumentSync {:openClose true
+                                                  :save {:includeText false}}}
+                :serverInfo {:name "typedclojure"}}]
+    (validate-outgoing! ::initialize-result result)
+    result))
+
+(defn- send-diagnostics!
+  "Send a publishDiagnostics notification, validating the params first."
+  [server params]
+  (validate-outgoing! ::publish-diagnostics-params params)
+  (server/send-notification server "textDocument/publishDiagnostics" params))
 
 (defn type-check-and-notify! [{:keys [server files-with-diagnostics! root-uri!] :as _context}]
   (te/log! :info "Running type checker...")
@@ -40,18 +83,15 @@
 
     (run!
      (fn [path]
-       (server/send-notification
-        server "textDocument/publishDiagnostics"
-        {:uri path
-         :diagnostics []}))
+       (send-diagnostics! server {:uri path :diagnostics []}))
      @files-with-diagnostics!)
 
     (when (= result :type-errors)
       (run!
        (fn [[file-path type-errors-for-file]]
          (swap! files-with-diagnostics! conj file-path)
-         (server/send-notification
-          server "textDocument/publishDiagnostics"
+         (send-diagnostics!
+          server
           {:uri file-path
            :diagnostics
            (map
