@@ -21,7 +21,11 @@
                   :scm {:url "https://github.com/Olical/typedclojure-lsp"
                         :connection "scm:git:git://github.com/Olical/typedclojure-lsp.git"
                         :developerConnection "scm:git:ssh://git@github.com/Olical/typedclojure-lsp.git"
-                        :tag (str "v" version)}})
+                        :tag (str "v" version)}
+                  :pom-data [[:licenses
+                              [:license
+                               [:name "Unlicense"]
+                               [:url "https://unlicense.org/"]]]]})
     (b/copy-dir {:src-dirs ["src" "resources"]
                  :target-dir class-dir})
     (b/jar {:class-dir class-dir
