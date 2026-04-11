@@ -1,33 +1,37 @@
 [tools]
-clojure = "1.12.1"
 java = "temurin-21.0.6+7.0.LTS"
-
-[tasks.format]
-run = "clojure -M:format"
+clojure = "1.12.1"
 
 [tasks.test]
+description = "Run all tests with Kaocha"
 raw = true
 run = "clojure -M:test:dev"
 
 [tasks.typecheck]
+description = "Run the Typed Clojure type checker on this codebase"
 raw = true
 run = "clojure -M -m typedclojure-lsp.runner"
 
-[tasks.antq]
-raw = true
-run = "clojure -M:antq"
+[tasks.format]
+description = "Format code with cljfmt"
+run = "clojure -M:format"
 
 [tasks.dev]
+description = "Start LSP with nREPL + FlowStorm debugger for development"
 raw = true
 run = "clojure -X:test:dev:flowstorm typedclojure-lsp.dev/start!"
 
-[tasks.build]
+[tasks.outdated]
+description = "Check for outdated dependencies"
+raw = true
+run = "clojure -M:antq"
+
+[tasks.jar]
+description = "Build the library JAR for Clojars"
 run = "clojure -T:build jar"
 
-[tasks.clean]
-run = "clojure -T:build clean"
-
 [tasks.deploy]
+description = "Deploy to Clojars"
 run = "clojure -T:build deploy"
 
 [tasks.vscode-package]

@@ -10,13 +10,13 @@ Typed Clojure LSP - an LSP server that brings Typed Clojure type checking into e
 
 All commands use [mise](https://mise.jdx.dev/) as the task runner (requires Java 21, Clojure 1.12.1):
 
-- `mise test` - Run the Kaocha test suite
+- `mise test` - Run all tests with Kaocha
 - `mise typecheck` - Run the Typed Clojure type checker on this codebase (dogfooding)
 - `mise format` - Format code with cljfmt
 - `mise dev` - Start LSP with nREPL + FlowStorm debugger for development
-- `mise build` - Build JAR artifact
-- `mise deploy` - Deploy to Clojars
-- `mise antq` - Check for outdated dependencies
+- `mise jar` - Build the library JAR for Clojars
+- `mise deploy` - Deploy to Clojars (builds JAR automatically)
+- `mise outdated` - Check for outdated dependencies
 
 To run a single test, use Kaocha's `--focus` flag: `clojure -M:test:dev --focus typedclojure-lsp.runner-test/check-dirs`
 
