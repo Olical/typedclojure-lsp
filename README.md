@@ -57,7 +57,12 @@ code --install-extension typedclojure-lsp-0.0.1.vsix
 
 Or if you use `mise`: `mise vscode-package` then install the `.vsix` from the `vscode-extension/` directory.
 
-The extension activates on Clojure files and runs `.typedclojure-lsp/start` from your workspace root. You can change the script path via the `typedclojure-lsp.startScript` setting.
+The extension activates on Clojure files and pulls typedclojure-lsp from Clojars automatically. No start script needed.
+
+**Settings:**
+
+- `typedclojure-lsp.version` - Version to use from Clojars (default `"RELEASE"` for latest, or pin e.g. `"0.1.106"`)
+- `typedclojure-lsp.path` - Path to a local checkout for development (overrides version when set)
 
 ## Project local start script
 
@@ -74,7 +79,7 @@ Here's some starting points for different situations, please feel free to add mo
  {org.clojure/clojure {:mvn/version "..."}
 
  :aliases
- {:typedclojure-lsp {:extra-deps {uk.me.oli/typedclojure-lsp {:mvn/version "${VERSION (see clojars badge)}"}}
+ {:typedclojure-lsp {:extra-deps {uk.me.oli/typedclojure-lsp {:mvn/version "RELEASE"}}
                      :main-opts ["-m" "typedclojure-lsp.main"]}}}}
 ```
 
@@ -94,7 +99,7 @@ clojure -M:typedclojure-lsp
   :dependencies []
 
   :profiles
-  {:typedclojure-lsp {:dependencies [[uk.me.oli/typedclojure-lsp "${VERSION (see clojars badge)}"]]}}
+  {:typedclojure-lsp {:dependencies [[uk.me.oli/typedclojure-lsp "RELEASE"]]}}
 
   :aliases
   {"typedclojure-lsp" ["with-profile" "+typedclojure-lsp" "run" "-m" "typedclojure-lsp.main"]})

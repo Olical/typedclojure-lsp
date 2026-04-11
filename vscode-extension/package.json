@@ -24,10 +24,15 @@
     "configuration": {
       "title": "Typed Clojure LSP",
       "properties": {
-        "typedclojure-lsp.startScript": {
+        "typedclojure-lsp.version": {
           "type": "string",
-          "default": ".typedclojure-lsp/start",
-          "description": "Path to the start script relative to the workspace root"
+          "default": "RELEASE",
+          "description": "Version of typedclojure-lsp to use from Clojars (e.g. \"0.1.106\" or \"RELEASE\" for latest)"
+        },
+        "typedclojure-lsp.path": {
+          "type": "string",
+          "default": "",
+          "description": "Path to a local typedclojure-lsp checkout for development. Overrides the version setting when set."
         }
       }
     }
