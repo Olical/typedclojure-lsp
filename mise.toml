@@ -37,7 +37,7 @@ run = "clojure -T:build deploy"
 [tasks.vscode-package]
 description = "Package the VS Code extension as a .vsix"
 dir = "vscode-extension"
-run = "npx @vscode/vsce package --allow-missing-repository"
+run = "npm install && npx @vscode/vsce package --allow-missing-repository"
 
 [tasks.update-lsp-schema]
 description = "Fetch the latest LSP meta model from Microsoft"
