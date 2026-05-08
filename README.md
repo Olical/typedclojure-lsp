@@ -51,6 +51,7 @@ The extension is not yet published to the VS Code marketplace but you can build 
 
 ```bash
 cd vscode-extension
+npm install
 npx @vscode/vsce package --allow-missing-repository
 code --install-extension typedclojure-lsp-0.0.1.vsix
 ```
