@@ -89,8 +89,10 @@ Here's some starting points for different situations, please feel free to add mo
 
 ```bash
 #!/usr/bin/env bash
-clojure -M:typedclojure-lsp
+exec clojure -M:typedclojure-lsp "$@"
 ```
+
+`exec` replaces the shell so signals from the editor reach the JVM cleanly on shutdown. `"$@"` forwards any args the editor passes (see the keep-stdout-clean note above for the args mechanism in each editor).
 
 ### Leiningen
 
@@ -111,7 +113,7 @@ clojure -M:typedclojure-lsp
 
 ```bash
 #!/usr/bin/env bash
-lein typedclojure-lsp
+exec lein typedclojure-lsp "$@"
 ```
 
 ## Type checking at the CLI or in CI
