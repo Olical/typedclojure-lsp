@@ -17,6 +17,10 @@ Edit them from **Settings → Extensions → Typed Clojure LSP** and scope to th
 
 The launched process talks to VS Code over stdio using LSP's JSON-RPC framing protocol. Anything printed to stdout that isn't a valid LSP message will corrupt the transport and the editor will drop the connection. Send all logging to stderr, and prefer launching debug tooling (FlowStorm, instrumentation, REPL banners) from a connected REPL rather than at JVM startup. The `typedclojure-lsp.args` setting lets your start script branch on flags so the editor case can opt out of stdout-noisy tooling.
 
+## See also
+
+- [Clojure DAP](https://marketplace.visualstudio.com/items?itemName=olical.clojure-dap) — companion extension that brings step-debugging to Clojure via the Debug Adapter Protocol, backed by CIDER's nREPL debug middleware.
+
 ## License
 
 Released into the public domain via the [Unlicense](LICENSE).
