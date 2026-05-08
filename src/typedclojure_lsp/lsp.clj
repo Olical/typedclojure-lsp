@@ -101,10 +101,13 @@
            :diagnostics
            (map
             (fn [{:keys [message form _type-error env]}]
-              {:source "typedclojure"
-               :message message
-               :range {:start {:line (:line env) :character (:column env)}
-                       :end {:line (:line env) :character (+ (:column env) (count (pr-str form)))}}})
+              ;; typedclojure reports 1-indexed line/column; LSP requires 0-indexed.
+              (let [line (dec (:line env))
+                    column (dec (:column env))]
+                {:source "typedclojure"
+                 :message message
+                 :range {:start {:line line :character column}
+                         :end {:line line :character (+ column (count (pr-str form)))}}}))
             type-errors-for-file)}))
        (group-by (comp :file :env) type-errors))))
 

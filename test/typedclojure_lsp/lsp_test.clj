@@ -49,8 +49,8 @@
                 :params {:uri "file:///home/user/project/src/core.clj"
                          :diagnostics [{:source "typedclojure"
                                         :message "Type mismatch"
-                                        :range {:start {:line 5 :character 3}
-                                                :end {:line 5 :character (+ 3 (count (pr-str '(add :foo 10))))}}}]}}
+                                        :range {:start {:line 4 :character 2}
+                                                :end {:line 4 :character (+ 2 (count (pr-str '(add :foo 10))))}}}]}}
                (first @notifications))))))
 
   (t/testing "with :ok result and pre-existing file, sends empty diagnostics to clear stale file"
