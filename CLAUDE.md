@@ -38,3 +38,6 @@ LSP context (server, atoms for root-uri and files-with-diagnostics) is threaded 
 - Tests use `matcher-combinators` for flexible assertions (`match?`).
 - The project dogfoods itself: `mise typecheck` runs this project's own type checker against its source.
 - Per-project editor setup uses `.typedclojure-lsp/start` scripts (see README for editor config).
+- The script's stdout is the LSP transport. Anything printed to stdout that isn't a framed JSON-RPC message corrupts the protocol and the editor drops the connection — keep logs on stderr, write port files instead of printing them.
+- This repo's `.typedclojure-lsp/start` accepts a `--no-flowstorm` flag and switches to `mise dev-no-flowstorm` (no `:flowstorm` alias). FlowStorm/ClojureStorm prints during JVM init, before any of our code runs, so it can't be muzzled in-process. The flag is the escape hatch for editor-launched LSP sessions.
+- The VS Code extension lives in `vscode-extension/` and is configured via `typedclojure-lsp.command` and `typedclojure-lsp.args`. The repo's `.vscode/settings.json` already passes `["--no-flowstorm"]` so the extension works out of the box on this codebase. Build with `mise vscode-package`.

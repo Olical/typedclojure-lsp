@@ -21,6 +21,11 @@ description = "Start LSP with nREPL + FlowStorm debugger for development"
 raw = true
 run = "clojure -X:test:dev:flowstorm typedclojure-lsp.dev/start!"
 
+[tasks.dev-no-flowstorm]
+description = "Start LSP with nREPL but no FlowStorm (FlowStorm corrupts stdout, breaking the LSP transport)"
+raw = true
+run = "clojure -X:test:dev typedclojure-lsp.dev/start!"
+
 [tasks.outdated]
 description = "Check for outdated dependencies"
 raw = true

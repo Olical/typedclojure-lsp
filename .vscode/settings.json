@@ -1,0 +1,3 @@
+{
+  "typedclojure-lsp.args": ["--no-flowstorm"]
+}

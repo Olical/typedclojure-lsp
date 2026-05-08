@@ -11,6 +11,8 @@
   "Start up the LSP with an nREPL for development."
   [params]
 
+  (main/setup-stdio!)
+
   (let [{:keys [port] :as _server} (nrepl/start-server :handler cider/cider-nrepl-handler)]
     (te/log! :info (str "nREPL server started on port " port))
     (te/log! :info "Writing port to .nrepl-port")

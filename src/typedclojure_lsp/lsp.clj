@@ -144,31 +144,35 @@
 ; (t/ann start-server! [:-> netty/AlephServer])
 (defn start-stdio-server!
   "Creates and starts an LSP server communicating over stdio.
+  Accepts an opts map forwarded to lsp4clj's stdio-server, so the caller can
+  pin :in/:out to specific streams (e.g. a stdout captured before redirecting
+  System.out to stderr).
   Returns a map with :server and :start! (a derefable that blocks until shutdown)."
-  []
-  (let [server (io-server/stdio-server)
-        context {:server server
-                 :files-with-diagnostics! (atom #{})
-                 :root-uri! (atom nil)}
-        start! (server/start server context)]
+  ([] (start-stdio-server! {}))
+  ([opts]
+   (let [server (io-server/stdio-server opts)
+         context {:server server
+                  :files-with-diagnostics! (atom #{})
+                  :root-uri! (atom nil)}
+         start! (server/start server context)]
 
-    (a/go-loop []
-      (when-let [[level & args] (a/<! (:log-ch server))]
-        (te/log!
-         {:level :info
-          :data {:level level
-                 :args args}}
-         "lsp4clj [log]")
-        (recur)))
+     (a/go-loop []
+       (when-let [[level & args] (a/<! (:log-ch server))]
+         (te/log!
+          {:level :info
+           :data {:level level
+                  :args args}}
+          "lsp4clj [log]")
+         (recur)))
 
-    (a/go-loop []
-      (when-let [[level & args] (a/<! (:trace-ch server))]
-        (te/log!
-         {:level :info
-          :data {:level level
-                 :args args}}
-         "lsp4clj [trace]")
-        (recur)))
+     (a/go-loop []
+       (when-let [[level & args] (a/<! (:trace-ch server))]
+         (te/log!
+          {:level :info
+           :data {:level level
+                  :args args}}
+          "lsp4clj [trace]")
+         (recur)))
 
-    {:server server
-     :start! start!}))
+     {:server server
+      :start! start!})))

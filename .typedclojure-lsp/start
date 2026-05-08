@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
 
-mise dev
+if [ "$1" = "--no-flowstorm" ]; then
+  exec mise run dev-no-flowstorm
+fi
+
+exec mise dev

@@ -1,3 +1,5 @@
+const path = require("path");
+const fs = require("fs");
 const vscode = require("vscode");
 const { LanguageClient } = require("vscode-languageclient/node");
 
@@ -5,20 +7,36 @@ let client;
 
 module.exports = {
   activate(context) {
+    const folders = vscode.workspace.workspaceFolders;
+    if (!folders || folders.length === 0) {
+      vscode.window.showErrorMessage(
+        "Typed Clojure LSP: open a folder or workspace to use this extension.",
+      );
+      return;
+    }
+
+    const root = folders[0].uri.fsPath;
     const config = vscode.workspace.getConfiguration("typedclojure-lsp");
-    const localPath = config.get("path");
-    const version = config.get("version");
+    const configuredCommand = config.get("command");
+    const args = config.get("args") ?? [];
 
-    const dep = localPath
-      ? `typedclojure-lsp {:local/root "${localPath}"}`
-      : `uk.me.oli/typedclojure-lsp {:mvn/version "${version}"}`;
+    const command = path.isAbsolute(configuredCommand)
+      ? configuredCommand
+      : path.join(root, configuredCommand);
 
-    const deps = `{:deps {${dep}}}`;
+    try {
+      fs.accessSync(command, fs.constants.X_OK);
+    } catch {
+      vscode.window.showErrorMessage(
+        `Typed Clojure LSP: ${command} is missing or not executable. Set typedclojure-lsp.command or see the README.`,
+      );
+      return;
+    }
 
     client = new LanguageClient(
       "typedclojure-lsp",
       "Typed Clojure LSP",
-      { command: "clojure", args: ["-Sdeps", deps, "-M", "-m", "typedclojure-lsp.main"] },
+      { command, args, options: { cwd: root } },
       { documentSelector: [{ scheme: "file", language: "clojure" }] },
     );
 

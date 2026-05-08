@@ -47,27 +47,31 @@ If you don't use `clojure-lsp`, remove it from the `language-servers` array.
 
 ### VS Code
 
-The extension is not yet published to the VS Code marketplace but you can build and install it locally from the `vscode-extension/` directory:
+The extension is not yet published to the marketplace, but you can build and install it locally from the `vscode-extension/` directory:
 
 ```bash
 cd vscode-extension
 npm install
 npx @vscode/vsce package --allow-missing-repository
-code --install-extension typedclojure-lsp-0.0.1.vsix
+code --install-extension typedclojure-lsp-0.0.3.vsix
 ```
 
 Or if you use `mise`: `mise vscode-package` then install the `.vsix` from the `vscode-extension/` directory.
 
-The extension activates on Clojure files and pulls typedclojure-lsp from Clojars automatically. No start script needed.
+The extension activates on Clojure files and runs an executable from the workspace root (default `.typedclojure-lsp/start`), matching the Neovim and Helix configurations above. Two settings tune the launch:
 
-**Settings:**
+| Setting | Default | Purpose |
+| --- | --- | --- |
+| `typedclojure-lsp.command` | `.typedclojure-lsp/start` | Command to launch the server. Resolved relative to the workspace root if not absolute. |
+| `typedclojure-lsp.args` | `[]` | Arguments passed to the launch command. |
 
-- `typedclojure-lsp.version` - Version to use from Clojars (default `"RELEASE"` for latest, or pin e.g. `"0.1.106"`)
-- `typedclojure-lsp.path` - Path to a local checkout for development (overrides version when set)
+Both can be edited from **Settings → Extensions → Typed Clojure LSP**, scoped per workspace via the **Workspace** tab. Workspace settings land in `.vscode/settings.json`, so you can commit them with the project.
 
 ## Project local start script
 
 Once your editor is configured to invoke this script, you can add different scripts to your project depending on your tooling choices or special requirements. You might have one per project that your team share or maybe keep them entirely private if you have differing OS needs. Maybe have a shared core script that invokes a sub-script that each of your team members can customise. The possibilities are endless and dictated by each of your projects.
+
+> **Keep stdout clean.** The script's stdout and stdin are the LSP transport (JSON-RPC framed messages). Anything that prints to stdout — `println` calls, library banners, JVM agents, `:classpath-overrides` like ClojureStorm — will corrupt the protocol and the editor will drop the connection. Send logs to stderr, write port files instead of printing them, and prefer launching debuggers like FlowStorm from a connected REPL rather than at JVM startup. If a flag is needed to suppress noisy debug tooling for the editor case, branch on `$1` in the script and pass the flag from the editor: `typedclojure-lsp.args` in VS Code, append to the `cmd` array in Neovim's `vim.lsp.config`, or the `args` key under `[language-server.typedclojure-lsp]` in Helix's `languages.toml`.
 
 Here's some starting points for different situations, please feel free to add more here if you work out how to get this working under different tooling.
 
@@ -140,7 +144,12 @@ The project currently depends on Typed Clojure `1.3.1-SNAPSHOT`, it also include
 
 ## Development
 
-The repository already has `.typedclojure-lsp/start` configured for local development on the tool itself. This starts up the server with an nREPL that [Conjure](https://github.com/Olical/conjure) will automatically connect to giving you a tight feedback loop.
+The repository ships a `.typedclojure-lsp/start` script geared for hacking on the tool itself. By default it runs `mise dev`, which boots the LSP plus an nREPL plus FlowStorm — perfect for [Conjure](https://github.com/Olical/conjure) to attach to for a tight feedback loop.
+
+FlowStorm prints to stdout during JVM init, which corrupts the LSP transport, so the script also recognises a single `--no-flowstorm` argument and switches to `mise dev-no-flowstorm` (LSP + nREPL, no FlowStorm). The repo's `.vscode/settings.json` passes that flag via `typedclojure-lsp.args`, so dogfooding the VS Code extension on this codebase works out of the box. If you use a different editor and want to dogfood here, do the same:
+
+- Neovim (`vim.lsp.config`): `cmd = {".typedclojure-lsp/start", "--no-flowstorm"}`
+- Helix (`languages.toml`): `args = ["--no-flowstorm"]` under `[language-server.typedclojure-lsp]`
 
 ## Questions? Feedback?
 

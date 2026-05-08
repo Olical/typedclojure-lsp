@@ -117,7 +117,7 @@ Typed Clojure throws `ExceptionInfo` with `:errors` in its ex-data. Each error i
 
 | Component | Namespace | Role |
 |-----------|-----------|------|
-| **main** | `typedclojure-lsp.main` | Entry point. Configures logging to stderr, sets up uncaught exception handler, calls `lsp/start-stdio-server!`, blocks on server start, then shuts down. |
+| **main** | `typedclojure-lsp.main` | Entry point. `setup-stdio!` redirects `System.out` and `*out*` to stderr (saving the original stdout in `lsp-stdout` for the LSP transport) and points telemere at stderr — so any errant prints from libraries, nREPL middleware, or user code can't corrupt the JSON-RPC framing. Then sets up the uncaught exception handler, calls `lsp/start-stdio-server!` with `:out lsp-stdout`, blocks on server start, then shuts down. `setup-stdio!` is idempotent so dev launchers can call it before they print anything (e.g. before nREPL boot). |
 | **lsp** | `typedclojure-lsp.lsp` | Protocol handler. Implements `initialize`, `initialized`, `didOpen`, `didSave` via lsp4clj multimethods. Owns the context map. Converts runner output to LSP diagnostics. |
 | **runner** | `typedclojure-lsp.runner` | Type checker wrapper. Calls `t/check-dir-clj`, catches exceptions, returns structured data. Also has a `-main` for CLI use (CI). |
 | **path** | `typedclojure-lsp.path` | Directory resolution. `classpath-dirs` returns all classpath entries as canonical paths. `current-directory` returns CWD (used by runner's CLI mode). |
