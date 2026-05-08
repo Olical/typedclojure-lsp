@@ -47,16 +47,13 @@ If you don't use `clojure-lsp`, remove it from the `language-servers` array.
 
 ### VS Code
 
-The extension is not yet published to the marketplace, but you can build and install it locally from the `vscode-extension/` directory:
+Install from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=olical.typedclojure-lsp), or from the command line:
 
 ```bash
-cd vscode-extension
-npm install
-npx @vscode/vsce package --allow-missing-repository
-code --install-extension typedclojure-lsp-0.0.3.vsix
+code --install-extension olical.typedclojure-lsp
 ```
 
-Or if you use `mise`: `mise vscode-package` then install the `.vsix` from the `vscode-extension/` directory.
+For development, you can build and install a local `.vsix` from the `vscode-extension/` directory with `mise vscode-package` (or `npm install && npx @vscode/vsce package --allow-missing-repository`), then `code --install-extension typedclojure-lsp-<version>.vsix`.
 
 The extension activates on Clojure files and runs an executable from the workspace root (default `.typedclojure-lsp/start`), matching the Neovim and Helix configurations above. Two settings tune the launch:
 
